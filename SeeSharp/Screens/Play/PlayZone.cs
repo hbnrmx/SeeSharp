@@ -17,6 +17,7 @@ namespace SeeSharp.Screens.Play
         private bool running;
         public Action<float> magnificationChanged;
         public Action<float> speedChanged;
+        public Action<float> currentBarChanged;
 
 
 
@@ -165,6 +166,7 @@ namespace SeeSharp.Screens.Play
         {
             var previous = _page.Bars.LastOrDefault(b => b < currentBar);
             currentBar = previous != 0f ? previous : currentBar;
+            currentBarChanged.Invoke(currentBar);
             resetBar();
         }
 
@@ -174,6 +176,7 @@ namespace SeeSharp.Screens.Play
             if (next != 0f)
             {
                 currentBar = next;
+                currentBarChanged.Invoke(currentBar);
                 resetBar();
                 return;
             }
@@ -182,6 +185,7 @@ namespace SeeSharp.Screens.Play
             if (first != 0f)
             {
                 currentBar = first;
+                currentBarChanged.Invoke(currentBar);
                 resetBar();
                 return;
             }

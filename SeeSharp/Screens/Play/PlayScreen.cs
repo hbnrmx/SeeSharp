@@ -14,6 +14,7 @@ namespace SeeSharp.Screens
         private readonly Page _page;
         private readonly MagnificationInfoText _magnification;
         private readonly SpeedInfoText _speed;
+        private readonly BarInfoText _currentBar;
 
         public PlayScreen(Page page)
         {
@@ -22,12 +23,14 @@ namespace SeeSharp.Screens
             RelativeSizeAxes = Axes.Both;
 
             AddInternal(new ModeInfoText(page, Mode.Playing));
+            AddInternal(_currentBar = new BarInfoText(page));
             AddInternal(_speed = new SpeedInfoText(page));
             AddInternal(_magnification = new MagnificationInfoText(page));
             AddInternal(new PlayZone(page)
             {
                 speedChanged = _speed.UpdateInfo,
-                magnificationChanged = _magnification.UpdateInfo
+                magnificationChanged = _magnification.UpdateInfo,
+                currentBarChanged = _currentBar.UpdateInfo,
             });
         }
 
