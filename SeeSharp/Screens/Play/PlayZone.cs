@@ -51,7 +51,7 @@ namespace SeeSharp.Screens.Play
             {
                 if (e.ShiftPressed || e.AltPressed || e.ControlPressed)
                 {
-                    adjustSpeed(0.2f);
+                    adjustSpeed(0.1f);
                     return true;
                 }
 
@@ -63,7 +63,7 @@ namespace SeeSharp.Screens.Play
             {
                 if (e.ShiftPressed || e.AltPressed || e.ControlPressed)
                 {
-                    adjustSpeed(-0.2f);
+                    adjustSpeed(-0.1f);
                     return true;
                 }
 
@@ -92,7 +92,7 @@ namespace SeeSharp.Screens.Play
                 case Key.BackSpace:
                     if (this.running)
                     {
-                        adjustSpeed(-0.2f);
+                        adjustSpeed(-0.1f);
                         return true;
                     }
 
@@ -103,7 +103,7 @@ namespace SeeSharp.Screens.Play
                 case Key.D:
                     if (this.running)
                     {
-                        adjustSpeed(0.2f);
+                        adjustSpeed(0.1f);
                         return true;
                     }
 
@@ -119,7 +119,7 @@ namespace SeeSharp.Screens.Play
         {
             if (e.ShiftPressed || e.ControlPressed || e.AltPressed)
             {
-                adjustSpeed(e.ScrollDelta.Y / 5);
+                adjustSpeed(e.ScrollDelta.Y / 10);
                 return true;
             }
 
@@ -152,13 +152,13 @@ namespace SeeSharp.Screens.Play
 
         private void adjustMagnification(float amount)
         {
-            _page.Magnification = MathHelper.Clamp(_page.Magnification + amount, 0.2f, 8f);
+            _page.Magnification = MathHelper.Clamp(_page.Magnification + amount, 0.6f, 8f);
             magnificationChanged.Invoke(_page.Magnification);
         }
 
         private void adjustSpeed(float amount)
         {
-            _page.Speed = MathHelper.Clamp(_page.Speed + amount, 0.2f, 4f);
+            _page.Speed = MathHelper.Clamp(_page.Speed + amount, 0.1f, 4f);
             speedChanged.Invoke(_page.Speed);
         }
 
