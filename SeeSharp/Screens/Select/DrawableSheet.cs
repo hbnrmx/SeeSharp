@@ -33,7 +33,7 @@ namespace SeeSharp.Screens.Select
             Masking = true;
             MaskingSmoothness = 1f;
             Margin = new MarginPadding {Bottom = 10f};
-            
+
             Children = new Drawable[]
             {
                 new Box
