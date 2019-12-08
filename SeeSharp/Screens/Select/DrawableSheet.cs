@@ -9,8 +9,9 @@ using osu.Framework.Input.Events;
 using osuTK;
 using osuTK.Graphics;
 using SeeSharp.Models;
+using SeeSharp.Screens.Play;
 
-namespace SeeSharp.Screens.Selection
+namespace SeeSharp.Screens.Select
 {
     public class DrawableSheet : Container
     {
@@ -25,6 +26,8 @@ namespace SeeSharp.Screens.Selection
         [BackgroundDependencyLoader]
         private void load()
         {
+            BorderThickness = 0f;
+            BorderColour = Color4.Blue;
             RelativeSizeAxes = Axes.X;
             AutoSizeAxes = Axes.Y;
             Masking = true;
@@ -39,9 +42,18 @@ namespace SeeSharp.Screens.Selection
                     Colour = Color4.DarkSlateGray,
                     EdgeSmoothness = new Vector2(1.5f, 0)
                 },
+                new PageSprite(_page)
+                {
+                    RelativeSizeAxes = Axes.None,
+                    FillMode = FillMode.Fit,
+                    Height = 141f,
+                    Width = 100f,
+                }, 
                 new SpriteText
                 {
-                    Padding = new MarginPadding(20),
+                    Anchor = Anchor.CentreLeft,
+                    Origin = Anchor.CentreLeft,
+                    Margin = new MarginPadding{Left = 120},
                     Text = Path.GetFileNameWithoutExtension(_page.FileInfo.Name),
                     Font = new FontUsage().With(size: 60)
                 }
@@ -52,6 +64,17 @@ namespace SeeSharp.Screens.Selection
         {
             PageSelected.Invoke(_page);
             return true;
+        }
+
+        protected override bool OnHover(HoverEvent e)
+        {
+            BorderThickness = 10f;
+            return true;
+        }
+
+        protected override void OnHoverLost(HoverLostEvent e)
+        {
+            BorderThickness = 0f;
         }
     }
 }
