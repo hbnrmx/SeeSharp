@@ -30,7 +30,7 @@ namespace SeeSharp.Screens
             {
                 speedChanged = _speed.UpdateInfo,
                 magnificationChanged = _magnification.UpdateInfo,
-                currentBarChanged = _currentBar.UpdateInfo,
+                currentBarChanged = _currentBar.UpdateInfo
             });
         }
 
