@@ -4,6 +4,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
 using osu.Framework.Screens;
+using osuTK;
 using osuTK.Input;
 using SeeSharp.Models;
 using SeeSharp.Screens.Select;
@@ -33,11 +34,18 @@ namespace SeeSharp.Screens
                         Direction = FillDirection.Vertical,
                         Anchor = Anchor.TopCentre,
                         Origin = Anchor.TopCentre,
-                        Padding = new MarginPadding(50),
+                        Padding = new MarginPadding{Top = 50f, Left = 50f, Right = 350f, Bottom = 50f},
                         RelativeSizeAxes = Axes.X,
                         AutoSizeAxes = Axes.Y,
                         Children = sheets
                     }
+                });
+                AddInternal(new AddPagesContainer()
+                {
+                    Anchor = Anchor.TopRight,
+                    Origin = Anchor.TopRight,
+                    Margin = new MarginPadding(90f),
+                    Scale = new Vector2(0.8f,0.8f)
                 });
             }
             else
