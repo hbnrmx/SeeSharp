@@ -35,7 +35,8 @@ namespace SeeSharp.Screens
                         Anchor = Anchor.TopCentre,
                         Origin = Anchor.TopCentre,
                         Padding = new MarginPadding(50),
-                        RelativeSizeAxes = Axes.Both,
+                        RelativeSizeAxes = Axes.X,
+                        AutoSizeAxes = Axes.Y,
                         Children = sheets
                     }
                 });
