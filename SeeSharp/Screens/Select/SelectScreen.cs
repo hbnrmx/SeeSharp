@@ -6,8 +6,8 @@ using osu.Framework.Input.Events;
 using osu.Framework.Screens;
 using osuTK.Input;
 using SeeSharp.Models;
+using SeeSharp.Screens.Select;
 using SeeSharp.Screens.Selection;
-using SeeSharp.Text;
 
 namespace SeeSharp.Screens
 {
@@ -43,12 +43,7 @@ namespace SeeSharp.Screens
             }
             else
             {
-                AddInternal(new InfoText
-                {
-                    Anchor = Anchor.Centre,
-                    Origin = Anchor.Centre,
-                    Text = "No pages in your pages folder"
-                });
+                AddInternal(new AddPagesContainer());
             }
         }
 
