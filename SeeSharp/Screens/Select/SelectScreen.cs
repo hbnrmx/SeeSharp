@@ -7,7 +7,6 @@ using osu.Framework.Screens;
 using osuTK.Input;
 using SeeSharp.Models;
 using SeeSharp.Screens.Select;
-using SeeSharp.Screens.Selection;
 
 namespace SeeSharp.Screens
 {
