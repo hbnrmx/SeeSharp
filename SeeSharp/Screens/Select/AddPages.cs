@@ -4,7 +4,6 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osu.Framework.Platform;
-using osuTK.Graphics;
 using SeeSharp.Text;
 
 namespace SeeSharp.Screens.Select
@@ -60,15 +59,15 @@ namespace SeeSharp.Screens.Select
 
         protected override bool OnHover(HoverEvent e)
         {
-            _icon.Colour = Color4.DarkSlateGray;
-            _text.Colour = Color4.DarkSlateGray;
+            _icon.Colour = Config.Colors["Foreground"];
+            _text.Colour = Config.Colors["Foreground"];
             return true;
         }
 
         protected override void OnHoverLost(HoverLostEvent e)
         {
-            _icon.Colour = Color4.White;
-            _text.Colour = Color4.White;
+            _icon.Colour = Config.Colors["White"];
+            _text.Colour = Config.Colors["White"];
         }
     }
 }

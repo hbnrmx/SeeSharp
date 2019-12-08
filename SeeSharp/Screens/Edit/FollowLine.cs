@@ -4,7 +4,6 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Input.Events;
 using osuTK;
-using osuTK.Graphics;
 
 namespace SeeSharp.Screens.Play
 {
@@ -23,7 +22,7 @@ namespace SeeSharp.Screens.Play
             {
                 RelativeSizeAxes = Axes.X,
                 Height = 7f,
-                Colour = Color4.Blue
+                Colour = Config.Colors["Primary"]
             });
         }
 

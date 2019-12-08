@@ -7,7 +7,6 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osuTK;
-using osuTK.Graphics;
 using SeeSharp.Models;
 using SeeSharp.Screens.Play;
 
@@ -27,7 +26,7 @@ namespace SeeSharp.Screens.Select
         private void load()
         {
             BorderThickness = 0f;
-            BorderColour = Color4.Blue;
+            BorderColour = Config.Colors["Foreground"];
             RelativeSizeAxes = Axes.X;
             AutoSizeAxes = Axes.Y;
             Masking = true;
@@ -39,7 +38,7 @@ namespace SeeSharp.Screens.Select
                 new Box
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Colour = Color4.DarkSlateGray,
+                    Colour = Config.Colors["Background"],
                     EdgeSmoothness = new Vector2(1.5f, 0)
                 },
                 new PageSprite(_page)
