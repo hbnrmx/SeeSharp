@@ -28,7 +28,7 @@ namespace SeeSharp
         {            
             Textures.AddStore(new TextureLoaderStore(new StorageBackedResourceStore(storage)));
 
-            _pagesPath = storage.GetFullPath(string.Empty);
+            _pagesPath = storage.GetFullPath(string.Empty, true);
             _pages = parsePages(_pagesPath);
             
             Add(new ScreenStack(new SelectScreen(_pages))

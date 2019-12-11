@@ -13,7 +13,7 @@ namespace SeeSharp
         
         protected override string LocateBasePath()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"pages");
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"pages/");
         }
     }
 }
