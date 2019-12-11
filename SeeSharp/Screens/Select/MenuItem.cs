@@ -12,12 +12,12 @@ using SeeSharp.Screens.Play;
 
 namespace SeeSharp.Screens.Select
 {
-    public class DrawableSheet : Container
+    public class MenuItem : Container
     {
         private readonly Page _page;
         public Action<Page> PageSelected;
 
-        public DrawableSheet(Page page)
+        public MenuItem(Page page)
         {
             this._page = page;
         }
