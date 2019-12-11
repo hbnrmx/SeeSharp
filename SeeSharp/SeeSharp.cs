@@ -20,22 +20,18 @@ namespace SeeSharp
     public class SeeSharp : Game
     {
         private IEnumerable<Page> _pages;
+
         private string _pagesPath;
 
         [BackgroundDependencyLoader]
-        private void load(Storage storage)
+        private void load(SeeSharpStorage storage)
         {
-            FileInfo[] _pageInfos = new DirectoryInfo(Config.FileLocation).GetFiles("*.*");
-
-            _pages = parsePages(_pageInfos);
-            
-            var pageStorage = storage.GetStorageForDirectory(Config.FileLocation);
+            var pageStorage = storage.GetStorageForDirectory("pages");
             _pagesPath = pageStorage.GetFullPath(string.Empty);
-            
             Textures.AddStore(new TextureLoaderStore(new StorageBackedResourceStore(pageStorage)));
 
-            //Sync sync = new Sync();
-
+            _pages = parsePages(_pagesPath);
+            
             Add(new ScreenStack(new SelectScreen(_pages))
             {
                 RelativeSizeAxes = Axes.Both
@@ -63,8 +59,10 @@ namespace SeeSharp
            
         }
 
-        private IEnumerable<Page> parsePages(FileInfo[] fileInfos)
+        private IEnumerable<Page> parsePages(string path)
         {
+            var fileInfos = new DirectoryInfo(path).GetFiles("*.*");
+            
             return fileInfos.Select(p => new Page
             {
                 FileInfo = p,
