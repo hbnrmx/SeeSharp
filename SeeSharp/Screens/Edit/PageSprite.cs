@@ -1,3 +1,4 @@
+using System.IO;
 using SixLabors.ImageSharp;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
@@ -17,19 +18,19 @@ namespace SeeSharp.Screens.Play
             Anchor = Anchor.TopLeft;
             Origin = Anchor.TopLeft;
             RelativeSizeAxes = Axes.Both;
+        }
+
+        [BackgroundDependencyLoader]
+        private void load(TextureStore textures, PageStorage storage)
+        {
+            Texture = textures.Get(_page.FileInfo.Name);
 
             if (FillMode == FillMode.Fit)
             {
                 //read aspect ratio from file
-                var image = Image.Load(Config.FileLocation + "\\" + page.FileInfo.Name);
+                var image = Image.Load(Path.Combine(storage.GetFullPath(string.Empty), _page.FileInfo.Name));
                 FillAspectRatio = (float) image.Width / (float) image.Height;
             }
-        }
-
-        [BackgroundDependencyLoader]
-        private void load(TextureStore textures)
-        {
-            Texture = textures.Get(_page.FileInfo.Name);
         }
     }
 }

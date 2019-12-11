@@ -6,8 +6,6 @@ namespace SeeSharp
 {
     public static class Config
     {
-        public const string FileLocation = @"pages";
-
         public static readonly Dictionary<string, Color4> Colors = new Dictionary<string, Color4>
         {
             {"White", FromHex("FFFFFF")},

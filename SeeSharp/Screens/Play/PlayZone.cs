@@ -19,8 +19,6 @@ namespace SeeSharp.Screens.Play
         public Action<float> speedChanged;
         public Action<float> currentBarChanged;
 
-
-
         public PlayZone(Page page)
         {
             _page = page;

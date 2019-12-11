@@ -3,14 +3,13 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
-using osu.Framework.Platform;
 using SeeSharp.Text;
 
 namespace SeeSharp.Screens.Select
 {
     public class AddPagesContainer : FillFlowContainer
     {
-        private Storage _storage;
+        private PageStorage _storage;
         private SpriteIcon _icon;
         private InfoText _text;
 
@@ -46,14 +45,14 @@ namespace SeeSharp.Screens.Select
         }
         
         [BackgroundDependencyLoader]
-        private void load(Storage storage)
+        private void load(PageStorage storage)
         {
             _storage = storage;
         }
 
         protected override bool OnClick(ClickEvent e)
         {
-            _storage.GetStorageForDirectory(Config.FileLocation).OpenInNativeExplorer();
+            _storage.OpenInNativeExplorer();
             return true;
         }
 

@@ -1,3 +1,4 @@
+using System.IO;
 using SixLabors.ImageSharp;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
@@ -15,8 +16,6 @@ namespace SeeSharp.Screens.Play
         {
             _page = page;
 
-            var image = Image.Load(Config.FileLocation + @"\\" + page.FileInfo.Name);
-            FillAspectRatio = (float) image.Width / (float) image.Height;
             FillMode = FillMode.Fit;
             RelativeSizeAxes = Axes.Both;
             RelativePositionAxes = Axes.Both;
@@ -27,8 +26,11 @@ namespace SeeSharp.Screens.Play
         }
 
         [BackgroundDependencyLoader]
-        private void load()
+        private void load(PageStorage storage)
         {
+            var image = Image.Load(Path.Combine(storage.GetFullPath(string.Empty), _page.FileInfo.Name));
+            FillAspectRatio = (float) image.Width / (float) image.Height;
+            
             foreach (var bar in _page.Bars)
                 AddInternal(new FollowLine((float) bar)
                 {
