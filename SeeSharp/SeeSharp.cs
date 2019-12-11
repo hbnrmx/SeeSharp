@@ -25,10 +25,11 @@ namespace SeeSharp
 
         [BackgroundDependencyLoader]
         private void load(SeeSharpStorage storage)
-        {            
-            Textures.AddStore(new TextureLoaderStore(new StorageBackedResourceStore(storage)));
+        {
+            var pageStorage = storage.GetStorageForDirectory("pages");
+            _pagesPath = pageStorage.GetFullPath(string.Empty);
+            Textures.AddStore(new TextureLoaderStore(new StorageBackedResourceStore(pageStorage)));
 
-            _pagesPath = storage.GetFullPath(string.Empty, true);
             _pages = parsePages(_pagesPath);
             
             Add(new ScreenStack(new SelectScreen(_pages))

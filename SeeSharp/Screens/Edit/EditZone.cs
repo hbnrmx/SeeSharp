@@ -28,7 +28,7 @@ namespace SeeSharp.Screens.Play
         [BackgroundDependencyLoader]
         private void load(SeeSharpStorage storage)
         {
-            var image = Image.Load(Path.Combine(storage.GetFullPath(string.Empty,true), _page.FileInfo.Name));
+            var image = Image.Load(Path.Combine(storage.GetStorageForDirectory("pages").GetFullPath(string.Empty), _page.FileInfo.Name));
             FillAspectRatio = (float) image.Width / (float) image.Height;
             
             foreach (var bar in _page.Bars)

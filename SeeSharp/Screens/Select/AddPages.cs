@@ -52,7 +52,7 @@ namespace SeeSharp.Screens.Select
 
         protected override bool OnClick(ClickEvent e)
         {
-            _storage.OpenInNativeExplorer();
+            _storage.GetStorageForDirectory(@"pages").OpenInNativeExplorer();
             return true;
         }
 
