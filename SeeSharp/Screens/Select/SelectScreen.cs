@@ -13,13 +13,13 @@ namespace SeeSharp.Screens
 {
     public class SelectScreen : Screen
     {
-        private readonly List<DrawableSheet> sheets = new List<DrawableSheet>();
+        private readonly List<MenuItem> sheets = new List<MenuItem>();
 
         public SelectScreen(IEnumerable<Page> pages)
         {
             foreach (var page in pages)
             {
-                sheets.Add(new DrawableSheet(page) {PageSelected = pageSelected});
+                sheets.Add(new MenuItem(page) {PageSelected = pageSelected});
             }
 
             RelativeSizeAxes = Axes.Both;
@@ -29,7 +29,7 @@ namespace SeeSharp.Screens
                 AddInternal(new BasicScrollContainer
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Child = new FillFlowContainer<DrawableSheet>
+                    Child = new FillFlowContainer<MenuItem>
                     {
                         Direction = FillDirection.Vertical,
                         Anchor = Anchor.TopCentre,
