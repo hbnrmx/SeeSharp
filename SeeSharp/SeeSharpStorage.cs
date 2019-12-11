@@ -5,9 +5,9 @@ using osu.Framework.Platform.Windows;
 
 namespace SeeSharp
 {
-    public class PageStorage : WindowsStorage
+    public class SeeSharpStorage : WindowsStorage
     {
-        public PageStorage(string baseName, DesktopGameHost host) : base(baseName, host)
+        public SeeSharpStorage(string baseName, DesktopGameHost host) : base(baseName, host)
         {
         }
         

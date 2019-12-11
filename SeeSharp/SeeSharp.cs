@@ -24,7 +24,7 @@ namespace SeeSharp
         private string _pagesPath;
 
         [BackgroundDependencyLoader]
-        private void load(PageStorage storage)
+        private void load(SeeSharpStorage storage)
         {            
             Textures.AddStore(new TextureLoaderStore(new StorageBackedResourceStore(storage)));
 

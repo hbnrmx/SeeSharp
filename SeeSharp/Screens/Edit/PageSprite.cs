@@ -21,7 +21,7 @@ namespace SeeSharp.Screens.Play
         }
 
         [BackgroundDependencyLoader]
-        private void load(TextureStore textures, PageStorage storage)
+        private void load(TextureStore textures, SeeSharpStorage storage)
         {
             Texture = textures.Get(_page.FileInfo.Name);
 

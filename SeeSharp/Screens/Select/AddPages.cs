@@ -9,7 +9,7 @@ namespace SeeSharp.Screens.Select
 {
     public class AddPagesContainer : FillFlowContainer
     {
-        private PageStorage _storage;
+        private SeeSharpStorage _storage;
         private SpriteIcon _icon;
         private InfoText _text;
 
@@ -45,7 +45,7 @@ namespace SeeSharp.Screens.Select
         }
         
         [BackgroundDependencyLoader]
-        private void load(PageStorage storage)
+        private void load(SeeSharpStorage storage)
         {
             _storage = storage;
         }

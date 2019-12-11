@@ -13,7 +13,7 @@ namespace SeeSharp.Desktop
             using (Game game = new SeeSharp())
             //using (Game game = new SeeSharpTestRunner())
             {
-                host.Dependencies.CacheAs(new PageStorage(string.Empty, (DesktopGameHost) host));
+                host.Dependencies.CacheAs(new SeeSharpStorage(string.Empty, (DesktopGameHost) host));
                 host.Run(game);
             }
         }
