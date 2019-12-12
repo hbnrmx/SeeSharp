@@ -21,6 +21,7 @@ namespace SeeSharp.Screens.Play
             RelativePositionAxes = Axes.Both;
             Origin = Anchor.Centre;
             Anchor = Anchor.Centre;
+            Masking = true;
 
             Child = new PageSprite(page);
         }
@@ -32,7 +33,7 @@ namespace SeeSharp.Screens.Play
             FillAspectRatio = (float) image.Width / (float) image.Height;
             
             foreach (var bar in _page.Bars)
-                AddInternal(new FollowLine((float) bar)
+                AddInternal(new ScanLine((float) bar)
                 {
                     OnRemove = removeLine
                 });
@@ -46,7 +47,7 @@ namespace SeeSharp.Screens.Play
 
         private void addLine(float y)
         {
-            var newLine = new FollowLine(y)
+            var newLine = new ScanLine(y)
             {
                 OnRemove = removeLine,
                 OnPositionChange = updateLine
@@ -56,10 +57,10 @@ namespace SeeSharp.Screens.Play
             AddInternal(newLine);
         }
 
-        private void removeLine(FollowLine followLine)
+        private void removeLine(ScanLine scanLine)
         {
-            _page.Bars.Remove(followLine.Y);
-            RemoveInternal(followLine);
+            _page.Bars.Remove(scanLine.Y);
+            RemoveInternal(scanLine);
         }
 
         private void updateLine(float oldY, float newY)
