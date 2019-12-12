@@ -16,6 +16,7 @@ namespace SeeSharp.Screens.Select
     {
         private readonly Page _page;
         public Action<Page> PageSelected;
+        private SpriteText _text;
 
         public MenuItem(Page page)
         {
@@ -48,13 +49,13 @@ namespace SeeSharp.Screens.Select
                     Height = 141f,
                     Width = 100f,
                 }, 
-                new SpriteText
+                _text = new SpriteText
                 {
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft,
                     Margin = new MarginPadding{Left = 120},
                     Text = Path.GetFileNameWithoutExtension(_page.FileInfo.Name),
-                    Font = new FontUsage().With(size: 60)
+                    Font = new FontUsage().With(size: 55)
                 }
             };
         }
@@ -68,12 +69,14 @@ namespace SeeSharp.Screens.Select
         protected override bool OnHover(HoverEvent e)
         {
             BorderThickness = 10f;
+            _text.Colour = Config.Colors["Foreground"];
             return true;
         }
 
         protected override void OnHoverLost(HoverLostEvent e)
         {
             BorderThickness = 0f;
+            _text.Colour = Config.Colors["White"];
         }
     }
 }
