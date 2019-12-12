@@ -32,7 +32,7 @@ namespace SeeSharp.Screens.Select
                         Origin = Anchor.Centre,
                         Height = 75f,
                         Width = 75f,
-                        Icon = FontAwesome.Solid.FolderPlus
+                        Icon = FontAwesome.Regular.FolderOpen
                     },
                     _text = new InfoText
                     {
