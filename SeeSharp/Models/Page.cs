@@ -12,8 +12,8 @@ namespace SeeSharp.Models
         [JsonProperty("speed")]
         public float Speed { get; set; }
 
-        [JsonProperty("magnification")]
-        public float Magnification { get; set; }
+        [JsonProperty("zoom")]
+        public float Zoom { get; set; }
 
         [JsonProperty("bars")]
         public SortedList<float> Bars { get; set; }

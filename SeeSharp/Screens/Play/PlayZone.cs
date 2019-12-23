@@ -15,7 +15,7 @@ namespace SeeSharp.Screens.Play
         private readonly Container container;
         private float currentBar;
         private bool running;
-        public Action<float> magnificationChanged;
+        public Action<float> zoomChanged;
         public Action<float> speedChanged;
         public Action<float> currentBarChanged;
 
@@ -53,7 +53,7 @@ namespace SeeSharp.Screens.Play
                     return true;
                 }
 
-                adjustMagnification(0.2f);
+                adjustZoom(0.2f);
                 return true;
             }
 
@@ -65,7 +65,7 @@ namespace SeeSharp.Screens.Play
                     return true;
                 }
 
-                adjustMagnification(-0.2f);
+                adjustZoom(-0.2f);
                 return true;
             }
 
@@ -121,7 +121,7 @@ namespace SeeSharp.Screens.Play
                 return true;
             }
 
-            adjustMagnification(e.ScrollDelta.Y / 5);
+            adjustZoom(e.ScrollDelta.Y / 5);
             return true;
         }
 
@@ -129,7 +129,7 @@ namespace SeeSharp.Screens.Play
         {
             base.Update();
             {
-                Child.ScaleTo(_page.Magnification);
+                Child.ScaleTo(_page.Zoom);
                 foreach (var child in container.Children)
                 {
                     float yOffset = -(currentBar - 0.5f) * child.DrawHeight;
@@ -148,10 +148,10 @@ namespace SeeSharp.Screens.Play
             }
         }
 
-        private void adjustMagnification(float amount)
+        private void adjustZoom(float amount)
         {
-            _page.Magnification = MathHelper.Clamp(_page.Magnification + amount, 0.6f, 8f);
-            magnificationChanged.Invoke(_page.Magnification);
+            _page.Zoom = MathHelper.Clamp(_page.Zoom + amount, 0.6f, 8f);
+            zoomChanged.Invoke(_page.Zoom);
         }
 
         private void adjustSpeed(float amount)

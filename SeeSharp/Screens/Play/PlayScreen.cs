@@ -12,7 +12,7 @@ namespace SeeSharp.Screens
     public class PlayScreen : Screen
     {
         private readonly Page _page;
-        private readonly MagnificationInfoText _magnification;
+        private readonly ZoomInfoText _zoom;
         private readonly SpeedInfoText _speed;
         private readonly BarInfoText _currentBar;
 
@@ -25,11 +25,11 @@ namespace SeeSharp.Screens
             AddInternal(new ModeInfoText(page, Mode.Playing));
             AddInternal(_currentBar = new BarInfoText(page));
             AddInternal(_speed = new SpeedInfoText(page));
-            AddInternal(_magnification = new MagnificationInfoText(page));
+            AddInternal(_zoom = new ZoomInfoText(page));
             AddInternal(new PlayZone(page)
             {
                 speedChanged = _speed.UpdateInfo,
-                magnificationChanged = _magnification.UpdateInfo,
+                zoomChanged = _zoom.UpdateInfo,
                 currentBarChanged = _currentBar.UpdateInfo
             });
         }
