@@ -66,7 +66,7 @@ namespace SeeSharp
             return fileInfos.Select(p => new Page
             {
                 FileInfo = p,
-                Magnification = 1.0f,
+                Zoom = 1.0f,
                 Speed = 1.0f,
                 Bars = new SortedList<float>()
             });

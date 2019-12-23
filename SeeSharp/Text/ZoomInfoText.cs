@@ -3,19 +3,19 @@ using SeeSharp.Models;
 
 namespace SeeSharp.Text
 {
-    public class MagnificationInfoText : InfoText
+    public class ZoomInfoText : InfoText
     {
-        public MagnificationInfoText(Page page)
+        public ZoomInfoText(Page page)
         {
             Anchor = Anchor.BottomRight;
             Origin = Anchor.BottomRight;
-            Text = $"Magnification: {page.Magnification:P}";
+            Text = $"Zoom: {page.Zoom:P}";
             Margin = new MarginPadding {Right = 30};
         }
 
-        public void UpdateInfo(float magnification)
+        public void UpdateInfo(float zoom)
         {
-            Text = $"Magnification: {magnification:P}";
+            Text = $"Zoom: {zoom:P}";
         }
     }
 }

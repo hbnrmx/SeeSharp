@@ -8,8 +8,8 @@ namespace SeeSharp.Models
         [JsonProperty("default_speed")]
         public float DefaultSpeed;
 
-        [JsonProperty("default_magnification")]
-        public float DefaultMagnification;
+        [JsonProperty("default_zoom")]
+        public float DefaultZoom;
         
         [JsonProperty("pages")]
         public List<Page> Pages { get; set; }
