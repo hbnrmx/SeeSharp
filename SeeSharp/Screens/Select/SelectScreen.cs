@@ -65,7 +65,7 @@ namespace SeeSharp.Screens.Select
             switch (e.Key)
             {
                 case Key.F1:
-                    this.Push(new HelpScreen());
+                    this.Push(new SelectHelpScreen());
                     return true;
 
                 default:

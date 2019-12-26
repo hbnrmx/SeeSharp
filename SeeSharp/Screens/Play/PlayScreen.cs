@@ -48,7 +48,7 @@ namespace SeeSharp.Screens.Play
                     return true;
 
                 case Key.F1:
-                    this.Push(new HelpScreen());
+                    this.Push(new PlayHelpScreen());
                     return true;
 
                 default:
