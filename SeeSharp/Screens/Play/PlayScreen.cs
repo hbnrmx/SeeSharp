@@ -4,33 +4,34 @@ using osu.Framework.Screens;
 using osuTK.Input;
 using SeeSharp.Models;
 using SeeSharp.Screens.Edit;
-using SeeSharp.Screens.Play;
+using SeeSharp.Screens.Help;
 using SeeSharp.Text;
 
-namespace SeeSharp.Screens
+namespace SeeSharp.Screens.Play
 {
     public class PlayScreen : Screen
     {
         private readonly Page _page;
-        private readonly ZoomInfoText _zoom;
-        private readonly SpeedInfoText _speed;
-        private readonly BarInfoText _currentBar;
 
         public PlayScreen(Page page)
         {
             _page = page;
+            
+            ZoomInfoText zoom;
+            SpeedInfoText speed;
+            BarInfoText currentBar;
 
             RelativeSizeAxes = Axes.Both;
 
             AddInternal(new ModeInfoText(page, Mode.Playing));
-            AddInternal(_currentBar = new BarInfoText(page));
-            AddInternal(_speed = new SpeedInfoText(page));
-            AddInternal(_zoom = new ZoomInfoText(page));
+            AddInternal(currentBar = new BarInfoText(page));
+            AddInternal(speed = new SpeedInfoText(page));
+            AddInternal(zoom = new ZoomInfoText(page));
             AddInternal(new PlayZone(page)
             {
-                speedChanged = _speed.UpdateInfo,
-                zoomChanged = _zoom.UpdateInfo,
-                currentBarChanged = _currentBar.UpdateInfo
+                speedChanged = speed.UpdateInfo,
+                zoomChanged = zoom.UpdateInfo,
+                currentBarChanged = currentBar.UpdateInfo
             });
         }
 

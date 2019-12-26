@@ -13,7 +13,7 @@ using osu.Framework.Screens;
 using osuTK;
 using osuTK.Input;
 using SeeSharp.Models;
-using SeeSharp.Screens;
+using SeeSharp.Screens.Select;
 
 namespace SeeSharp
 {

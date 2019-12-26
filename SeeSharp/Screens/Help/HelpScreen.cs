@@ -4,7 +4,7 @@ using osu.Framework.Screens;
 using osuTK.Input;
 using SeeSharp.Text;
 
-namespace SeeSharp.Screens
+namespace SeeSharp.Screens.Help
 {
     public class HelpScreen : Screen
     {

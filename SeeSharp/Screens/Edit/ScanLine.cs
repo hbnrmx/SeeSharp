@@ -6,7 +6,7 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osuTK;
 
-namespace SeeSharp.Screens.Play
+namespace SeeSharp.Screens.Edit
 {
     public class ScanLine : Container, IComparable<ScanLine>
     {
@@ -21,7 +21,7 @@ namespace SeeSharp.Screens.Play
             RelativeSizeAxes = Axes.X;
 
             var arrows = new List<SpriteIcon>();
-            for (int i = 0; i < 30; i++)
+            for (var i = 0; i < 30; i++)
             {
                 arrows.Add(new SpriteIcon
                 {

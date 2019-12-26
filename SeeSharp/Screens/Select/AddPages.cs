@@ -10,8 +10,8 @@ namespace SeeSharp.Screens.Select
     public class AddPagesContainer : FillFlowContainer
     {
         private SeeSharpStorage _storage;
-        private SpriteIcon _icon;
-        private InfoText _text;
+        private readonly SpriteIcon _icon;
+        private readonly InfoText _text;
 
         public AddPagesContainer()
         {

@@ -7,9 +7,10 @@ using osu.Framework.Screens;
 using osuTK;
 using osuTK.Input;
 using SeeSharp.Models;
-using SeeSharp.Screens.Select;
+using SeeSharp.Screens.Help;
+using SeeSharp.Screens.Play;
 
-namespace SeeSharp.Screens
+namespace SeeSharp.Screens.Select
 {
     public class SelectScreen : Screen
     {

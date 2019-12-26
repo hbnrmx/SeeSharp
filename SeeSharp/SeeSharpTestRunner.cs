@@ -5,7 +5,7 @@ using osu.Framework.Graphics.Cursor;
 using osu.Framework.Platform;
 using osu.Framework.Testing;
 
-namespace SeeSharp.VisualTests
+namespace SeeSharp
 {
     public class SeeSharpTestRunner : SeeSharp
     {

@@ -8,7 +8,7 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osuTK;
 using SeeSharp.Models;
-using SeeSharp.Screens.Play;
+using SeeSharp.Screens.Edit;
 
 namespace SeeSharp.Screens.Select
 {

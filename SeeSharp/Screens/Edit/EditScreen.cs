@@ -3,7 +3,7 @@ using osu.Framework.Input.Events;
 using osu.Framework.Screens;
 using osuTK.Input;
 using SeeSharp.Models;
-using SeeSharp.Screens.Play;
+using SeeSharp.Screens.Help;
 using SeeSharp.Text;
 
 namespace SeeSharp.Screens.Edit

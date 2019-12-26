@@ -1,12 +1,12 @@
 using System.IO;
-using SixLabors.ImageSharp;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 using SeeSharp.Models;
+using SixLabors.ImageSharp;
 
-namespace SeeSharp.Screens.Play
+namespace SeeSharp.Screens.Edit
 {
     public class PageSprite : Sprite
     {

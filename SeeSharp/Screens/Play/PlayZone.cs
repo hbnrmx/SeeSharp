@@ -6,6 +6,7 @@ using osu.Framework.Input.Events;
 using osuTK;
 using osuTK.Input;
 using SeeSharp.Models;
+using SeeSharp.Screens.Edit;
 
 namespace SeeSharp.Screens.Play
 {
@@ -132,7 +133,7 @@ namespace SeeSharp.Screens.Play
                 Child.ScaleTo(_page.Zoom);
                 foreach (var child in container.Children)
                 {
-                    float yOffset = -(currentBar - 0.5f) * child.DrawHeight;
+                    var yOffset = -(currentBar - 0.5f) * child.DrawHeight;
                     child.Y = yOffset;
                     if (this.running)
                     {
