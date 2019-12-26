@@ -19,6 +19,7 @@ namespace SeeSharp.Screens.Edit
             AutoSizeAxes = Axes.Y;
             RelativePositionAxes = Axes.Y;
             RelativeSizeAxes = Axes.X;
+            Origin = Anchor.CentreLeft;
 
             var arrows = new List<SpriteIcon>();
             for (var i = 0; i < 30; i++)
