@@ -1,5 +1,3 @@
-using osu.Framework.Graphics.Sprites;
-
 namespace SeeSharp.Screens.Help
 {
     public class EditHelpScreen : HelpScreen
