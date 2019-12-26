@@ -29,7 +29,7 @@ namespace SeeSharp.Screens.Edit
                     return true;
 
                 case Key.F1:
-                    this.Push(new HelpScreen());
+                    this.Push(new EditHelpScreen());
                     return true;
 
                 default:
