@@ -32,7 +32,8 @@ namespace SeeSharp.Screens.Edit
                     Icon = FontAwesome.Solid.LongArrowAltRight,
                     Height = 40f,
                     Width = 40f,
-                    Colour = Config.Colors["Primary"]
+                    Colour = Config.Colors["Foreground"],
+                    Shadow = true,
                 });
             }
 
