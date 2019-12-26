@@ -63,13 +63,17 @@ namespace SeeSharp
         {
             var fileInfos = new DirectoryInfo(path).GetFiles("*.*");
             
-            return fileInfos.Select(p => new Page
-            {
-                FileInfo = p,
-                Zoom = 1.0f,
-                Speed = 1.0f,
-                Bars = new SortedList<float>()
-            });
+            return fileInfos
+                .Where(fi => fi.Extension == ".png" 
+                          || fi.Extension == ".jpg"
+                          || fi.Extension == ".gif")
+                .Select(p => new Page
+                {
+                    FileInfo = p,
+                    Zoom = 1.0f,
+                    Speed = 1.0f,
+                    Bars = new SortedList<float>()
+                });
         }
     }
 }
