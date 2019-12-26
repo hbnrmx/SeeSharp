@@ -1,6 +1,9 @@
 ﻿using osu.Framework.Graphics;
+using osu.Framework.Graphics.Containers;
+using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osu.Framework.Screens;
+using osuTK;
 using osuTK.Input;
 using SeeSharp.Text;
 
@@ -8,32 +11,48 @@ namespace SeeSharp.Screens.Help
 {
     public class HelpScreen : Screen
     {
+        protected TextFlowContainer textFlow;
+        
         public HelpScreen()
         {
             RelativeSizeAxes = Axes.Both;
 
             AddInternal(new InfoText
             {
-                Text = "Help (F1)"
+                Text = "Help"
             });
 
-            AddRangeInternal(new Drawable[]
+            AddInternal(textFlow = new TextFlowContainer
             {
-                new InfoText
-                {
-                    Origin = Anchor.Centre,
-                    Anchor = Anchor.Centre,
-                    Text = "TODO"
-                }
+                RelativeSizeAxes = Axes.X,
+                Anchor = Anchor.Centre,
+                Origin = Anchor.Centre,
+                TextAnchor = Anchor.Centre
             });
         }
 
-        protected override bool OnKeyDown(KeyDownEvent e)
+        protected static void format(SpriteText t)
+        {
+            t.Font = t.Font.With(size: 50);
+        }
+
+        protected static void formatHighlight(SpriteText t)
+        {
+            format(t);
+            t.Colour = Config.Colors["Foreground"];
+        }
+        
+        protected static void formatItalic(SpriteText t)
+        {
+            format(t);
+            t.Shear = new Vector2(0.3f,0);
+        }
+
+        protected override bool OnKeyUp(KeyUpEvent e)
         {
             switch (e.Key)
             {
                 case Key.F1:
-                case Key.Escape:
                     this.Exit();
                     return true;
 
