@@ -38,7 +38,8 @@ namespace SeeSharp.Screens.Select
                     {
                         Anchor = Anchor.Centre,
                         Origin = Anchor.Centre,
-                        Text = "Add pages"
+                        Text = "Add pages",
+                        Colour = Config.Colors["White"]
                     }
                 }
             };
