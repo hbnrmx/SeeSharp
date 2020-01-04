@@ -54,7 +54,7 @@ namespace SeeSharp
                 {
                     File.Copy(path,Path.Combine(_pagesPath, Path.GetFileName(path)));
                 }
-                catch (Exception){}
+                catch{}
             }
            
         }
