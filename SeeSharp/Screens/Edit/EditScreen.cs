@@ -26,6 +26,7 @@ namespace SeeSharp.Screens.Edit
             {
                 case Key.Escape:
                 case Key.Enter:
+                    //TODO: Save
                     this.Exit();
                     return true;
 
