@@ -37,12 +37,11 @@ namespace SeeSharp
         
         private void parsePages()
         {
-            var fileInfos = new DirectoryInfo(_path).GetFiles("*.*");
-            
-            //set Bindable
-            _pages.Value = fileInfos
-                .Where(fi => fi.Extension == ".png" 
-                          || fi.Extension == ".jpg"
+            _pages.Value = new DirectoryInfo(_path)
+                .GetFiles("*.*")
+                .Where(fi => fi.Extension == ".jpg"
+                          || fi.Extension == ".jpeg"
+                          || fi.Extension == ".png"
                           || fi.Extension == ".gif")
                 .Select(fi => new Page
                 {

@@ -21,7 +21,6 @@ namespace SeeSharp
     public class SeeSharp : Game
     {
         private readonly Bindable<IEnumerable<Bindable<Page>>> _pages = new Bindable<IEnumerable<Bindable<Page>>>();
-
         private string _pagesPath;
 
         [BackgroundDependencyLoader]
