@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using osu.Framework;
 using osu.Framework.Allocation;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.IO.Stores;
@@ -19,7 +20,7 @@ namespace SeeSharp
 {
     public class SeeSharp : Game
     {
-        private IEnumerable<Page> _pages;
+        private readonly Bindable<IEnumerable<Bindable<Page>>> _pages = new Bindable<IEnumerable<Bindable<Page>>>();
 
         private string _pagesPath;
 
@@ -30,7 +31,7 @@ namespace SeeSharp
             _pagesPath = pageStorage.GetFullPath(string.Empty);
             Textures.AddStore(new TextureLoaderStore(new StorageBackedResourceStore(pageStorage)));
 
-            _pages = parsePages(_pagesPath);
+            new PageSync(_pagesPath, _pages);
             
             Add(new ScreenStack(new SelectScreen(_pages))
             {
@@ -55,25 +56,7 @@ namespace SeeSharp
                     File.Copy(path,Path.Combine(_pagesPath, Path.GetFileName(path)));
                 }
                 catch{}
-            }
-           
-        }
-
-        private IEnumerable<Page> parsePages(string path)
-        {
-            var fileInfos = new DirectoryInfo(path).GetFiles("*.*");
-            
-            return fileInfos
-                .Where(fi => fi.Extension == ".png" 
-                          || fi.Extension == ".jpg"
-                          || fi.Extension == ".gif")
-                .Select(p => new Page
-                {
-                    FileInfo = p,
-                    Zoom = 1.0f,
-                    Speed = 1.0f,
-                    Bars = new SortedList<float>()
-                });
+            }  
         }
     }
 }

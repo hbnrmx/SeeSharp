@@ -1,5 +1,6 @@
 using System.IO;
 using osu.Framework.Allocation;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
@@ -10,9 +11,9 @@ namespace SeeSharp.Screens.Edit
 {
     public class EditZone : Container
     {
-        private readonly Page _page;
+        private readonly Bindable<Page> _page;
 
-        public EditZone(Page page)
+        public EditZone(Bindable<Page> page)
         {
             _page = page;
 
@@ -29,10 +30,10 @@ namespace SeeSharp.Screens.Edit
         [BackgroundDependencyLoader]
         private void load(SeeSharpStorage storage)
         {
-            var image = Image.Load(Path.Combine(storage.GetStorageForDirectory("pages").GetFullPath(string.Empty), _page.FileInfo.Name));
+            var image = Image.Load(Path.Combine(storage.GetStorageForDirectory("pages").GetFullPath(string.Empty), _page.Value.FileInfo.Name));
             FillAspectRatio = (float) image.Width / (float) image.Height;
             
-            foreach (var bar in _page.Bars)
+            foreach (var bar in _page.Value.Bars)
                 AddInternal(new ScanLine((float) bar)
                 {
                     OnRemove = removeLine
@@ -53,23 +54,20 @@ namespace SeeSharp.Screens.Edit
                 OnPositionChange = updateLine
             };
 
-            _page.Bars.Add(newLine.Y);
+            _page.Value.Bars.Add(newLine.Y);
             AddInternal(newLine);
         }
 
         private void removeLine(ScanLine scanLine)
         {
-            _page.Bars.Remove(scanLine.Y);
+            _page.Value.Bars.Remove(scanLine.Y);
             RemoveInternal(scanLine);
         }
 
         private void updateLine(float oldY, float newY)
         {
-            _page.Bars.Remove(oldY);
-            _page.Bars.Add(newY);
+            _page.Value.Bars.Remove(oldY);
+            _page.Value.Bars.Add(newY);
         }
     }
 }
-//TODO use BindableList
-//TODO decimal?
-//TODO duplicates in list

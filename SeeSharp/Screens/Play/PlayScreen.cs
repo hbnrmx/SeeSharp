@@ -1,4 +1,5 @@
 ﻿using osu.Framework.Graphics;
+using osu.Framework.Bindables;
 using osu.Framework.Input.Events;
 using osu.Framework.Screens;
 using osuTK.Input;
@@ -11,9 +12,9 @@ namespace SeeSharp.Screens.Play
 {
     public class PlayScreen : Screen
     {
-        private readonly Page _page;
+        private readonly Bindable<Page> _page;
 
-        public PlayScreen(Page page)
+        public PlayScreen(Bindable<Page> page)
         {
             _page = page;
             

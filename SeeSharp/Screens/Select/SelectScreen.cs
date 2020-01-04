@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
@@ -16,16 +17,16 @@ namespace SeeSharp.Screens.Select
     {
         private readonly List<MenuItem> sheets = new List<MenuItem>();
 
-        public SelectScreen(IEnumerable<Page> pages)
+        public SelectScreen(Bindable<IEnumerable<Bindable<Page>>> pages)
         {
-            foreach (var page in pages)
+            foreach (var page in pages.Value)
             {
                 sheets.Add(new MenuItem(page) {PageSelected = pageSelected});
             }
 
             RelativeSizeAxes = Axes.Both;
 
-            if (pages.Any())
+            if (pages.Value.Any())
             {
                 AddInternal(new BasicScrollContainer
                 {
@@ -56,7 +57,7 @@ namespace SeeSharp.Screens.Select
             }
         }
 
-        private void pageSelected(Page page)
+        private void pageSelected(Bindable<Page> page)
         {
             this.Push(new PlayScreen(page));
         }

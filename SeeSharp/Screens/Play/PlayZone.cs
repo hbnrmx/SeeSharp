@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
@@ -12,7 +13,7 @@ namespace SeeSharp.Screens.Play
 {
     public class PlayZone : Container
     {
-        private readonly Page _page;
+        private readonly Bindable<Page> _page;
         private readonly Container container;
         private float currentBar;
         private bool running;
@@ -20,12 +21,12 @@ namespace SeeSharp.Screens.Play
         public Action<float> speedChanged;
         public Action<float> currentBarChanged;
 
-        public PlayZone(Page page)
+        public PlayZone(Bindable<Page> page)
         {
             _page = page;
 
             //sane default, halfway down the page
-            currentBar = page.Bars.Any() ? page.Bars.First() : 0.5f;
+            currentBar = page.Value.Bars.Any() ? page.Value.Bars.First() : 0.5f;
 
             RelativeSizeAxes = Axes.Both;
             RelativePositionAxes = Axes.Both;
@@ -130,14 +131,14 @@ namespace SeeSharp.Screens.Play
         {
             base.Update();
             {
-                Child.ScaleTo(_page.Zoom);
+                Child.ScaleTo(_page.Value.Zoom);
                 foreach (var child in container.Children)
                 {
                     var yOffset = -(currentBar - 0.5f) * child.DrawHeight;
                     child.Y = yOffset;
                     if (this.running)
                     {
-                        float xOffset = (float) Time.Elapsed * _page.Speed / 10f;
+                        float xOffset = (float) Time.Elapsed * _page.Value.Speed / 10f;
                         child.X -= xOffset;
 
                         if (child.X < -child.DrawWidth)
@@ -151,19 +152,19 @@ namespace SeeSharp.Screens.Play
 
         private void adjustZoom(float amount)
         {
-            _page.Zoom = MathHelper.Clamp(_page.Zoom + amount, 0.6f, 8f);
-            zoomChanged.Invoke(_page.Zoom);
+            _page.Value.Zoom = MathHelper.Clamp(_page.Value.Zoom + amount, 0.6f, 8f);
+            zoomChanged.Invoke(_page.Value.Zoom);
         }
 
         private void adjustSpeed(float amount)
         {
-            _page.Speed = MathHelper.Clamp(_page.Speed + amount, 0.1f, 4f);
-            speedChanged.Invoke(_page.Speed);
+            _page.Value.Speed = MathHelper.Clamp(_page.Value.Speed + amount, 0.1f, 4f);
+            speedChanged.Invoke(_page.Value.Speed);
         }
 
         private void previousBar()
         {
-            var previous = _page.Bars.LastOrDefault(b => b < currentBar);
+            var previous = _page.Value.Bars.LastOrDefault(b => b < currentBar);
             currentBar = previous != 0f ? previous : currentBar;
             currentBarChanged.Invoke(currentBar);
             resetBar();
@@ -171,7 +172,7 @@ namespace SeeSharp.Screens.Play
 
         private void nextBar(bool loop = false)
         {
-            var next = _page.Bars.FirstOrDefault(b => b > currentBar);
+            var next = _page.Value.Bars.FirstOrDefault(b => b > currentBar);
             if (next != 0f)
             {
                 currentBar = next;
@@ -180,7 +181,7 @@ namespace SeeSharp.Screens.Play
                 return;
             }
 
-            var first = _page.Bars.FirstOrDefault();
+            var first = _page.Value.Bars.FirstOrDefault();
             if (first != 0f)
             {
                 currentBar = first;
