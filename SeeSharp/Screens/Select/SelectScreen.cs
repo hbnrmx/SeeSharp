@@ -30,12 +30,13 @@ namespace SeeSharp.Screens.Select
                 AddInternal(new BasicScrollContainer
                 {
                     RelativeSizeAxes = Axes.Both,
+                    ScrollbarVisible = false,
+                    Padding = new MarginPadding{Top = 50f, Left = 50f, Right = 350f, Bottom = 50f},
                     Child = new FillFlowContainer<MenuItem>
                     {
                         Direction = FillDirection.Vertical,
                         Anchor = Anchor.TopCentre,
                         Origin = Anchor.TopCentre,
-                        Padding = new MarginPadding{Top = 50f, Left = 50f, Right = 350f, Bottom = 50f},
                         RelativeSizeAxes = Axes.X,
                         AutoSizeAxes = Axes.Y,
                         Children = sheets
