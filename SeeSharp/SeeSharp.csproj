@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Textures\*.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Tests" />
   </ItemGroup>
 </Project>
