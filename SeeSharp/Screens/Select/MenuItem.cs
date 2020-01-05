@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using osu.Framework.Allocation;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
@@ -14,13 +15,13 @@ namespace SeeSharp.Screens.Select
 {
     public class MenuItem : Container
     {
-        private readonly Page _page;
-        public Action<Page> PageSelected;
+        private readonly Bindable<Page> _page;
+        public Action<Bindable<Page>> PageSelected;
         private SpriteText _text;
 
-        public MenuItem(Page page)
+        public MenuItem(Bindable<Page> page)
         {
-            this._page = page;
+            _page = page;
         }
 
         [BackgroundDependencyLoader]
@@ -54,7 +55,7 @@ namespace SeeSharp.Screens.Select
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft,
                     Margin = new MarginPadding{Left = 120},
-                    Text = Path.GetFileNameWithoutExtension(_page.FileInfo.Name),
+                    Text = Path.GetFileNameWithoutExtension(_page.Value.FileInfo.Name),
                     Font = new FontUsage().With(size: 55)
                 }
             };

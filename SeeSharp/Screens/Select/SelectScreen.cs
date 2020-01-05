@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
@@ -14,49 +15,73 @@ namespace SeeSharp.Screens.Select
 {
     public class SelectScreen : Screen
     {
-        private readonly List<MenuItem> sheets = new List<MenuItem>();
+        private readonly Bindable<IEnumerable<Bindable<Page>>> _pages;
+        private readonly List<MenuItem> _menuItems = new List<MenuItem>();
+        private readonly BasicScrollContainer scroll;
+        private readonly AddPagesContainer right;
+        private readonly AddPagesContainer center;
+        private readonly FillFlowContainer<MenuItem> fillFlow;
 
-        public SelectScreen(IEnumerable<Page> pages)
+        public SelectScreen(Bindable<IEnumerable<Bindable<Page>>> pages)
         {
-            foreach (var page in pages)
-            {
-                sheets.Add(new MenuItem(page) {PageSelected = pageSelected});
-            }
-
+            _pages = pages;
             RelativeSizeAxes = Axes.Both;
-
-            if (pages.Any())
+            InternalChildren = new Drawable[]
             {
-                AddInternal(new BasicScrollContainer
+                scroll = new BasicScrollContainer 
                 {
                     RelativeSizeAxes = Axes.Both,
                     ScrollbarVisible = false,
                     Padding = new MarginPadding{Top = 50f, Left = 50f, Right = 350f, Bottom = 50f},
-                    Child = new FillFlowContainer<MenuItem>
+                    Child = fillFlow = new FillFlowContainer<MenuItem>
                     {
                         Direction = FillDirection.Vertical,
                         Anchor = Anchor.TopCentre,
                         Origin = Anchor.TopCentre,
                         RelativeSizeAxes = Axes.X,
                         AutoSizeAxes = Axes.Y,
-                        Children = sheets
+                        Children = _menuItems
                     }
-                });
-                AddInternal(new AddPagesContainer()
+                },
+                right = new AddPagesContainer
                 {
                     Anchor = Anchor.TopRight,
                     Origin = Anchor.TopRight,
                     Margin = new MarginPadding(90f),
                     Scale = new Vector2(0.8f,0.8f)
-                });
+                },
+                center = new AddPagesContainer()       
+            };
+
+            _pages.BindValueChanged(_ => Scheduler.AddOnce(load), true);
+        }
+
+        private void load()
+        {
+            _menuItems.Clear();
+            
+            foreach (var page in _pages.Value)
+            {
+                _menuItems.Add(new MenuItem(page) {PageSelected = pageSelected});
+            }
+
+            if (_menuItems.Any())
+            {
+                fillFlow.Children = _menuItems;
+                
+                scroll.Show();
+                right.Show();
+                center.Hide();
             }
             else
             {
-                AddInternal(new AddPagesContainer());
+                scroll.Hide();
+                right.Hide();
+                center.Show();
             }
         }
 
-        private void pageSelected(Page page)
+        private void pageSelected(Bindable<Page> page)
         {
             this.Push(new PlayScreen(page));
         }

@@ -1,3 +1,4 @@
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using SeeSharp.Models;
 
@@ -5,11 +6,11 @@ namespace SeeSharp.Text
 {
     public class ZoomInfoText : InfoText
     {
-        public ZoomInfoText(Page page)
+        public ZoomInfoText(Bindable<Page> page)
         {
             Anchor = Anchor.BottomRight;
             Origin = Anchor.BottomRight;
-            Text = $"Zoom: {page.Zoom:P}";
+            Text = $"Zoom: {page.Value.Zoom:P}";
             Margin = new MarginPadding {Right = 30};
         }
 
