@@ -39,10 +39,10 @@ namespace SeeSharp
         {
             _pages.Value = new DirectoryInfo(_path)
                 .GetFiles("*.*")
-                .Where(fi => fi.Extension == ".jpg"
-                          || fi.Extension == ".jpeg"
-                          || fi.Extension == ".png"
-                          || fi.Extension == ".gif")
+                .Where(fi => fi.Extension.ToLower() == ".jpg"
+                          || fi.Extension.ToLower() == ".jpeg"
+                          || fi.Extension.ToLower() == ".png"
+                          || fi.Extension.ToLower() == ".gif")
                 .Select(fi => new Page
                 {
                     FileInfo = fi,
