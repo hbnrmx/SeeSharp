@@ -47,6 +47,7 @@ namespace SeeSharp
                 .Where(fi => fi.Extension.ToLower() == ".jpg"
                           || fi.Extension.ToLower() == ".jpeg"
                           || fi.Extension.ToLower() == ".png"
+                          || fi.Extension.ToLower() == ".bmp"
                           || fi.Extension.ToLower() == ".gif")
                 .Select(fi => new Page
                 {
