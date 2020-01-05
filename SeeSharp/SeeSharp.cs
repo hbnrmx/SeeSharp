@@ -28,8 +28,11 @@ namespace SeeSharp
         {
             var pageStorage = storage.GetStorageForDirectory("pages");
             _pagesPath = pageStorage.GetFullPath(string.Empty);
+
+            //add TextureStore
             Textures.AddStore(new TextureLoaderStore(new StorageBackedResourceStore(pageStorage)));
 
+            //listen for file changes
             new PageSync(_pagesPath, _pages);
             
             Add(new ScreenStack(new SelectScreen(_pages))
