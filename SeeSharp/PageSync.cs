@@ -24,7 +24,12 @@ namespace SeeSharp
                 Path = path,
                 Filter = "*.*",
                 EnableRaisingEvents = true,
-                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size,
+                NotifyFilter = NotifyFilters.LastWrite
+                             | NotifyFilters.Size
+                             | NotifyFilters.Security
+                             | NotifyFilters.Attributes
+                             | NotifyFilters.FileName
+                             | NotifyFilters.LastAccess
             };
 
             watcher.Created += Update;
