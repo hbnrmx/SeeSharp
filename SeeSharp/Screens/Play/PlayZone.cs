@@ -166,7 +166,6 @@ namespace SeeSharp.Screens.Play
         {
             var previous = _page.Value.Bars.LastOrDefault(b => b < currentBar);
             currentBar = previous != 0f ? previous : currentBar;
-            currentBarChanged.Invoke(currentBar);
             resetBar();
         }
 
@@ -176,7 +175,6 @@ namespace SeeSharp.Screens.Play
             if (next != 0f)
             {
                 currentBar = next;
-                currentBarChanged.Invoke(currentBar);
                 resetBar();
                 return;
             }
@@ -185,7 +183,6 @@ namespace SeeSharp.Screens.Play
             if (first != 0f)
             {
                 currentBar = first;
-                currentBarChanged.Invoke(currentBar);
                 resetBar();
                 return;
             }
@@ -195,6 +192,7 @@ namespace SeeSharp.Screens.Play
 
         private void resetBar()
         {
+            currentBarChanged.Invoke(currentBar);
             foreach (var child in container.Children)
             {
                 child.X = 0;
