@@ -24,12 +24,12 @@ namespace SeeSharp.Screens.Edit
         [BackgroundDependencyLoader]
         private void load(TextureStore textures, SeeSharpStorage storage)
         {
-            Texture = textures.Get(_page.Value.FileInfo.Name);
+            Texture = textures.Get(_page.Value.Name);
 
             if (FillMode == FillMode.Fit)
             {
                 //read aspect ratio from file
-                var image = Image.Load(Path.Combine(storage.GetStorageForDirectory("pages").GetFullPath(string.Empty), _page.Value.FileInfo.Name));
+                var image = Image.Load(Path.Combine(storage.GetStorageForDirectory("pages").GetFullPath(string.Empty), _page.Value.Name));
                 FillAspectRatio = (float) image.Width / (float) image.Height;
             }
         }

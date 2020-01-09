@@ -30,7 +30,7 @@ namespace SeeSharp.Screens.Edit
         [BackgroundDependencyLoader]
         private void load(SeeSharpStorage storage)
         {
-            var image = Image.Load(Path.Combine(storage.GetStorageForDirectory("pages").GetFullPath(string.Empty), _page.Value.FileInfo.Name));
+            var image = Image.Load(Path.Combine(storage.GetStorageForDirectory("pages").GetFullPath(string.Empty), _page.Value.Name));
             FillAspectRatio = (float) image.Width / (float) image.Height;
             
             foreach (var bar in _page.Value.Bars)

@@ -8,7 +8,7 @@ namespace SeeSharp.Text
     {
         public ModeInfoText(Bindable<Page> page, Mode mode)
         {
-            Text = $"{(mode == Mode.Playing ? "Playing" :"Editing")} '{Path.GetFileNameWithoutExtension(page.Value.FileInfo.Name)}'";
+            Text = $"{(mode == Mode.Playing ? "Playing" :"Editing")} '{Path.GetFileNameWithoutExtension(page.Value.Name)}'";
         }
     }
 

@@ -55,7 +55,7 @@ namespace SeeSharp.Screens.Select
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft,
                     Margin = new MarginPadding{Left = 120},
-                    Text = Path.GetFileNameWithoutExtension(_page.Value.FileInfo.Name),
+                    Text = Path.GetFileNameWithoutExtension(_page.Value.Name),
                     Font = new FontUsage().With(size: 55)
                 }
             };

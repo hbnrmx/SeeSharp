@@ -44,14 +44,14 @@ namespace SeeSharp
         {
             _pages.Value = new DirectoryInfo(_path)
                 .GetFiles("*.*")
-                .Where(fi => fi.Extension.ToLower() == ".jpg"
-                          || fi.Extension.ToLower() == ".jpeg"
-                          || fi.Extension.ToLower() == ".png"
-                          || fi.Extension.ToLower() == ".bmp"
-                          || fi.Extension.ToLower() == ".gif")
-                .Select(fi => new Page
+                .Where(file => file.Extension.ToLower() == ".jpg"
+                          || file.Extension.ToLower() == ".jpeg"
+                          || file.Extension.ToLower() == ".png"
+                          || file.Extension.ToLower() == ".bmp"
+                          || file.Extension.ToLower() == ".gif")
+                .Select(file => new Page
                 {
-                    FileInfo = fi,
+                    Name = file.Name,
                     Zoom = 1.0f,
                     Speed = 1.0f,
                     Bars = new SortedList<float>()
