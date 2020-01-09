@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using Newtonsoft.Json;
+using osu.Framework.Bindables;
+using osu.Framework.Lists;
 
 namespace SeeSharp.Models
 {
@@ -12,6 +13,6 @@ namespace SeeSharp.Models
         public float DefaultZoom;
         
         [JsonProperty("pages")]
-        public List<Page> Pages { get; set; }
+        public Bindable<SortedList<BindablePage>> Pages { get; set; }
     }
 }

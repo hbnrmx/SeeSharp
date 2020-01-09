@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using osu.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
@@ -20,7 +17,7 @@ namespace SeeSharp
 {
     public class SeeSharp : Game
     {
-        private readonly Bindable<IEnumerable<Bindable<Page>>> _pages = new Bindable<IEnumerable<Bindable<Page>>>();
+        private readonly Bindable<SortedList<BindablePage>> _pages = new Bindable<SortedList<BindablePage>>();
         private string _pagesPath;
 
         [BackgroundDependencyLoader]

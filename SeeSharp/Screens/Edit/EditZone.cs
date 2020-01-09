@@ -1,6 +1,5 @@
 using System.IO;
 using osu.Framework.Allocation;
-using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
@@ -11,9 +10,9 @@ namespace SeeSharp.Screens.Edit
 {
     public class EditZone : Container
     {
-        private readonly Bindable<Page> _page;
+        private readonly BindablePage _page;
 
-        public EditZone(Bindable<Page> page)
+        public EditZone(BindablePage page)
         {
             _page = page;
 

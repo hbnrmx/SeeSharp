@@ -1,6 +1,5 @@
 ﻿using System;
 using osu.Framework.Graphics;
-using osu.Framework.Bindables;
 using osu.Framework.Input.Events;
 using osu.Framework.Screens;
 using osuTK.Input;
@@ -14,7 +13,7 @@ namespace SeeSharp.Screens.Edit
     {
         public Action setBarToFirstOrDefault;
         
-        public EditScreen(Bindable<Page> page)
+        public EditScreen(BindablePage page)
         {
             RelativeSizeAxes = Axes.Both;
 

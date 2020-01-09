@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using osu.Framework.Allocation;
-using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
@@ -15,11 +14,11 @@ namespace SeeSharp.Screens.Select
 {
     public class MenuItem : Container
     {
-        private readonly Bindable<Page> _page;
-        public Action<Bindable<Page>> PageSelected;
+        private readonly BindablePage _page;
+        public Action<BindablePage> PageSelected;
         private SpriteText _text;
 
-        public MenuItem(Bindable<Page> page)
+        public MenuItem(BindablePage page)
         {
             _page = page;
         }
