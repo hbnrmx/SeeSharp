@@ -5,9 +5,11 @@ namespace SeeSharp.Screens.Help
         public SelectHelpScreen()
         {
             textFlow.AddText("Add sheet music images in ", format);
-            textFlow.AddText(".jpg ", formatHighlight);
+            textFlow.AddText(".jpg", formatHighlight);
             textFlow.AddText(", ", format);
             textFlow.AddText(".png", formatHighlight);
+            textFlow.AddText(", ", format);
+            textFlow.AddText(".bmp", formatHighlight);
             textFlow.AddText(" or ", format);
             textFlow.AddText(".gif", formatHighlight);
             textFlow.AddText(" format to the pages folder.", format);
