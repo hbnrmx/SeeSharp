@@ -74,7 +74,7 @@ namespace SeeSharp.Screens.Play
             switch (e.Key)
             {
                 case Key.Space:
-                    this.running = !this.running;
+                    running = !running;
                     return true;
 
                 case Key.Up:
@@ -90,7 +90,7 @@ namespace SeeSharp.Screens.Play
                 case Key.Left:
                 case Key.A:
                 case Key.BackSpace:
-                    if (this.running)
+                    if (running)
                     {
                         adjustSpeed(-0.1f);
                         return true;
@@ -101,7 +101,7 @@ namespace SeeSharp.Screens.Play
 
                 case Key.Right:
                 case Key.D:
-                    if (this.running)
+                    if (running)
                     {
                         adjustSpeed(0.1f);
                         return true;
@@ -136,7 +136,7 @@ namespace SeeSharp.Screens.Play
                 {
                     var yOffset = -(currentBar - 0.5f) * child.DrawHeight;
                     child.Y = yOffset;
-                    if (this.running)
+                    if (running)
                     {
                         float xOffset = (float) Time.Elapsed * _page.Value.Speed / 10f;
                         child.X -= xOffset;
