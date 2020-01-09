@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -25,9 +26,6 @@ namespace SeeSharp.Screens.Play
         {
             _page = page;
 
-            //sane default, halfway down the page
-            currentBar = page.Value.Bars.Any() ? page.Value.Bars.First() : 0.5f;
-
             RelativeSizeAxes = Axes.Both;
             RelativePositionAxes = Axes.Both;
             Origin = Anchor.Centre;
@@ -44,6 +42,9 @@ namespace SeeSharp.Screens.Play
                 Anchor = Anchor.Centre
             };
         }
+        
+        [BackgroundDependencyLoader]
+        private void Load() => setBarToFirstOrDefault();
 
         protected override bool OnKeyDown(KeyDownEvent e)
         {
@@ -197,6 +198,14 @@ namespace SeeSharp.Screens.Play
             {
                 child.X = 0;
             }
+        }
+        
+        public void setBarToFirstOrDefault()
+        {
+            running = false;
+            currentBar = _page.Value.Bars.DefaultIfEmpty(0.5f).First();
+            resetBar();
+            
         }
     }
 }

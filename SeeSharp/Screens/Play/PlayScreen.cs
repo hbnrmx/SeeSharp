@@ -13,6 +13,7 @@ namespace SeeSharp.Screens.Play
     public class PlayScreen : Screen
     {
         private readonly Bindable<Page> _page;
+        private readonly PlayZone _playZone;
 
         public PlayScreen(Bindable<Page> page)
         {
@@ -28,7 +29,7 @@ namespace SeeSharp.Screens.Play
             AddInternal(currentBar = new BarInfoText(page));
             AddInternal(speed = new SpeedInfoText(page));
             AddInternal(zoom = new ZoomInfoText(page));
-            AddInternal(new PlayZone(page)
+            AddInternal(_playZone = new PlayZone(page)
             {
                 speedChanged = speed.UpdateInfo,
                 zoomChanged = zoom.UpdateInfo,
@@ -45,7 +46,10 @@ namespace SeeSharp.Screens.Play
                     return true;
 
                 case Key.E:
-                    this.Push(new EditScreen(_page));
+                    this.Push(new EditScreen(_page)
+                    {
+                        setBarToFirstOrDefault = _playZone.setBarToFirstOrDefault
+                    });
                     return true;
 
                 case Key.F1:
