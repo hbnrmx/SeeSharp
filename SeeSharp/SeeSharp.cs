@@ -20,7 +20,8 @@ namespace SeeSharp
 {
     public class SeeSharp : Game
     {
-        private readonly Bindable<SortedList<BindablePage>> _pages = new Bindable<SortedList<BindablePage>>();
+        private readonly Bindable<State> _state = new Bindable<State>(new State());
+        
         private string _pagesPath;
 
         [BackgroundDependencyLoader]
@@ -33,9 +34,9 @@ namespace SeeSharp
             //add TextureStore
             Textures.AddStore(new TextureLoaderStore(new StorageBackedResourceStore(pageStorage)));
 
-            var syncManager = new SyncManager(basePath, _pagesPath, _pages);
+            var syncManager = new SyncManager(basePath, _pagesPath, _state);
 
-            var selectScreen = new SelectScreen(_pages)
+            var selectScreen = new SelectScreen(_state.Value.Pages)
             {
                 Save = () => { syncManager.Save(); }
             };

@@ -6,6 +6,11 @@ namespace SeeSharp.Models
 {
     public class State
     {
+        public State()
+        {
+            Pages = new Bindable<SortedList<BindablePage>>();
+        }
+        
         [JsonProperty("default_speed")]
         public float DefaultSpeed;
 

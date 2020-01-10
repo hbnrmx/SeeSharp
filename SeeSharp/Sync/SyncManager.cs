@@ -14,13 +14,13 @@ namespace SeeSharp.Sync
         private readonly string _basePath;
         private readonly string _pagesPath;
         private string configPath() => Path.Combine(_basePath, "pages.json");
-        private readonly Bindable<SortedList<BindablePage>> _pages;
+        private readonly Bindable<State> _state;
 
-        public SyncManager(string basePath, string pagesPath, Bindable<SortedList<BindablePage>> pages)
+        public SyncManager(string basePath, string pagesPath, Bindable<State> state)
         {
             _basePath = basePath;
             _pagesPath = pagesPath;
-            _pages = pages;
+            _state = state;
 
             Load();
             Save();
@@ -86,12 +86,12 @@ namespace SeeSharp.Sync
             state.Pages.Value.RemoveAll(item => oldItems.Contains(item));
             
             //set new Value
-            _pages.Value = state.Pages.Value;
+            _state.Value = state;
         }
 
         public bool Save()
         {
-            var state = new State {Pages = _pages};
+            var state = _state;
             return SaveToConfig(configPath(), state);
         }
 
