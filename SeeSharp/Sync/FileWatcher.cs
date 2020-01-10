@@ -33,7 +33,7 @@ namespace SeeSharp
             //give some time for the external writing process to unlock the file
             //TODO: find more robust solution later.
             Thread.Sleep(2000);
-            OnChange.Invoke();
+            OnChange?.Invoke();
         }
     }
 }
