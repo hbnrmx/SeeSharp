@@ -1,4 +1,3 @@
-using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using SeeSharp.Models;
 
@@ -6,7 +5,7 @@ namespace SeeSharp.Text
 {
     public class SpeedInfoText : InfoText
     {
-        public SpeedInfoText(Bindable<Page> page)
+        public SpeedInfoText(BindablePage page)
         {
             Anchor = Anchor.BottomRight;
             Origin = Anchor.BottomRight;

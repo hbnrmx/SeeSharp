@@ -1,6 +1,5 @@
 using System.IO;
 using osu.Framework.Allocation;
-using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
@@ -11,9 +10,9 @@ namespace SeeSharp.Screens.Edit
 {
     public class PageSprite : Sprite
     {
-        private readonly Bindable<Page> _page;
+        private readonly BindablePage _page;
 
-        public PageSprite(Bindable<Page> page)
+        public PageSprite(BindablePage page)
         {
             _page = page;
             Anchor = Anchor.TopLeft;

@@ -1,4 +1,3 @@
-using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using SeeSharp.Models;
@@ -7,9 +6,9 @@ namespace SeeSharp.Text
 {
     public class BarInfoText : InfoText
     {
-        private readonly Bindable<Page> _page;
+        private readonly BindablePage _page;
 
-        public BarInfoText(Bindable<Page> page)
+        public BarInfoText(BindablePage page)
         {
             _page = page;
             Margin = new MarginPadding{Top = 40};

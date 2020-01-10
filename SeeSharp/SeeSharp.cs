@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using osu.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
@@ -9,35 +7,42 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.IO.Stores;
 using osu.Framework.Lists;
+using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osu.Framework.Screens;
 using osuTK;
 using osuTK.Input;
 using SeeSharp.Models;
 using SeeSharp.Screens.Select;
+using SeeSharp.Sync;
 
 namespace SeeSharp
 {
     public class SeeSharp : Game
     {
-        private readonly Bindable<IEnumerable<Bindable<Page>>> _pages = new Bindable<IEnumerable<Bindable<Page>>>();
+        private readonly Bindable<SortedList<BindablePage>> _pages = new Bindable<SortedList<BindablePage>>();
         private string _pagesPath;
 
         [BackgroundDependencyLoader]
         private void load(SeeSharpStorage storage)
         {
+            var basePath = storage.GetFullPath(string.Empty);
             var pageStorage = storage.GetStorageForDirectory("pages");
             _pagesPath = pageStorage.GetFullPath(string.Empty);
 
             //add TextureStore
             Textures.AddStore(new TextureLoaderStore(new StorageBackedResourceStore(pageStorage)));
 
-            //listen for file changes
-            new PageSync(_pagesPath, _pages);
-            
-            Add(new ScreenStack(new SelectScreen(_pages))
+            var syncManager = new SyncManager(basePath, _pagesPath, _pages);
+
+            var selectScreen = new SelectScreen(_pages)
             {
-                RelativeSizeAxes = Axes.Both
+                Save = () => { syncManager.Save(); }
+            };
+            
+            Add(new ScreenStack(selectScreen)
+            {
+                RelativeSizeAxes = Axes.Both,
             });
         }
 
@@ -49,15 +54,18 @@ namespace SeeSharp
             host.Window.FileDrop += fileDrop;
         }
 
-        private void fileDrop(object _, FileDropEventArgs e)
+        private void fileDrop(object _, FileDropEventArgs args)
         {
-            foreach (var path in e.FileNames)
+            foreach (var path in args.FileNames)
             {
                 try
                 {
-                    File.Copy(path,Path.Combine(_pagesPath, Path.GetFileName(path)));
+                    File.Copy(path, Path.Combine(_pagesPath, Path.GetFileName(path)));
                 }
-                catch{}
+                catch (Exception e)
+                {
+                    Logger.Error(e, "fileDrop failed");
+                }
             }  
         }
     }

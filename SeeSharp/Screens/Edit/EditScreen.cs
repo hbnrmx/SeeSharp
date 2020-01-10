@@ -1,6 +1,5 @@
 ﻿using System;
 using osu.Framework.Graphics;
-using osu.Framework.Bindables;
 using osu.Framework.Input.Events;
 using osu.Framework.Screens;
 using osuTK.Input;
@@ -12,9 +11,10 @@ namespace SeeSharp.Screens.Edit
 {
     public class EditScreen : Screen
     {
-        public Action setBarToFirstOrDefault;
+        public Action SetBarToFirstOrDefault;
+        public Action Save;
         
-        public EditScreen(Bindable<Page> page)
+        public EditScreen(BindablePage page)
         {
             RelativeSizeAxes = Axes.Both;
 
@@ -30,7 +30,8 @@ namespace SeeSharp.Screens.Edit
                 case Key.Escape:
                 case Key.Enter:
                     //TODO: Save
-                    setBarToFirstOrDefault.Invoke();
+                    SetBarToFirstOrDefault.Invoke();
+                    Save.Invoke();
                     this.Exit();
                     return true;
 

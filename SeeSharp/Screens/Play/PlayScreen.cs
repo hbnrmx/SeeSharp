@@ -1,5 +1,5 @@
-﻿using osu.Framework.Graphics;
-using osu.Framework.Bindables;
+﻿using System;
+using osu.Framework.Graphics;
 using osu.Framework.Input.Events;
 using osu.Framework.Screens;
 using osuTK.Input;
@@ -12,10 +12,11 @@ namespace SeeSharp.Screens.Play
 {
     public class PlayScreen : Screen
     {
-        private readonly Bindable<Page> _page;
+        public Action Save;
+        private readonly BindablePage _page;
         private readonly PlayZone _playZone;
 
-        public PlayScreen(Bindable<Page> page)
+        public PlayScreen(BindablePage page)
         {
             _page = page;
             
@@ -48,7 +49,8 @@ namespace SeeSharp.Screens.Play
                 case Key.E:
                     this.Push(new EditScreen(_page)
                     {
-                        setBarToFirstOrDefault = _playZone.setBarToFirstOrDefault
+                        Save = Save,
+                        SetBarToFirstOrDefault = _playZone.setBarToFirstOrDefault
                     });
                     return true;
 

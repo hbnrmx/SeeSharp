@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using osu.Framework.Allocation;
-using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
@@ -14,7 +13,7 @@ namespace SeeSharp.Screens.Play
 {
     public class PlayZone : Container
     {
-        private readonly Bindable<Page> _page;
+        private readonly BindablePage _page;
         private readonly Container container;
         private float currentBar;
         private bool running;
@@ -22,7 +21,7 @@ namespace SeeSharp.Screens.Play
         public Action<float> speedChanged;
         public Action<float> currentBarChanged;
 
-        public PlayZone(Bindable<Page> page)
+        public PlayZone(BindablePage page)
         {
             _page = page;
 
