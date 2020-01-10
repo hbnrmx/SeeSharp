@@ -4,7 +4,7 @@ using osu.Framework.Lists;
 
 namespace SeeSharp.Models
 {
-    public class Data
+    public class State
     {
         [JsonProperty("default_speed")]
         public float DefaultSpeed;
