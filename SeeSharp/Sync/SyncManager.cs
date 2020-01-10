@@ -31,7 +31,6 @@ namespace SeeSharp.Sync
                     Load();
                     Save();
                 }
-                
             };
 
             new FileWatcher(_pagesPath, "*.*")
