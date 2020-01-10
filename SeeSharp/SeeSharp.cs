@@ -33,11 +33,16 @@ namespace SeeSharp
             //add TextureStore
             Textures.AddStore(new TextureLoaderStore(new StorageBackedResourceStore(pageStorage)));
 
-            new SyncManager(basePath, _pagesPath, _pages);
+            var syncManager = new SyncManager(basePath, _pagesPath, _pages);
 
-            Add(new ScreenStack(new SelectScreen(_pages))
+            var selectScreen = new SelectScreen(_pages)
             {
-                RelativeSizeAxes = Axes.Both
+                Save = () => { syncManager.Save(); }
+            };
+            
+            Add(new ScreenStack(selectScreen)
+            {
+                RelativeSizeAxes = Axes.Both,
             });
         }
 

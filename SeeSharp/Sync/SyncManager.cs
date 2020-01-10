@@ -1,13 +1,10 @@
-using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using Newtonsoft.Json;
 using osu.Framework.Bindables;
 using osu.Framework.Configuration;
 using osu.Framework.Lists;
 using osu.Framework.Logging;
-using osu.Framework.Threading;
 using SeeSharp.Models;
 
 namespace SeeSharp.Sync

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
@@ -16,6 +17,7 @@ namespace SeeSharp.Screens.Select
 {
     public class SelectScreen : Screen
     {
+        public Action Save;
         private readonly Bindable<SortedList<BindablePage>> _pages;
         private readonly List<MenuItem> _menuItems = new List<MenuItem>();
         private readonly BasicScrollContainer scroll;
@@ -84,7 +86,10 @@ namespace SeeSharp.Screens.Select
 
         private void pageSelected(BindablePage page)
         {
-            this.Push(new PlayScreen(page));
+            this.Push(new PlayScreen(page)
+            {
+                Save = Save
+            });
         }
 
         protected override bool OnKeyDown(KeyDownEvent e)

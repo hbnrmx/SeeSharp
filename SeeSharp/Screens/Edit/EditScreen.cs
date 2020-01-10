@@ -11,7 +11,8 @@ namespace SeeSharp.Screens.Edit
 {
     public class EditScreen : Screen
     {
-        public Action setBarToFirstOrDefault;
+        public Action SetBarToFirstOrDefault;
+        public Action Save;
         
         public EditScreen(BindablePage page)
         {
@@ -29,7 +30,8 @@ namespace SeeSharp.Screens.Edit
                 case Key.Escape:
                 case Key.Enter:
                     //TODO: Save
-                    setBarToFirstOrDefault.Invoke();
+                    SetBarToFirstOrDefault.Invoke();
+                    Save.Invoke();
                     this.Exit();
                     return true;
 
