@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using osu.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
@@ -6,6 +7,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.IO.Stores;
 using osu.Framework.Lists;
+using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osu.Framework.Screens;
 using osuTK;
@@ -47,15 +49,18 @@ namespace SeeSharp
             host.Window.FileDrop += fileDrop;
         }
 
-        private void fileDrop(object _, FileDropEventArgs e)
+        private void fileDrop(object _, FileDropEventArgs args)
         {
-            foreach (var path in e.FileNames)
+            foreach (var path in args.FileNames)
             {
                 try
                 {
-                    File.Copy(path,Path.Combine(_pagesPath, Path.GetFileName(path)));
+                    File.Copy(path, Path.Combine(_pagesPath, Path.GetFileName(path)));
                 }
-                catch{}
+                catch (Exception e)
+                {
+                    Logger.Error(e, "fileDrop failed");
+                }
             }  
         }
     }
