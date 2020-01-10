@@ -61,7 +61,7 @@ namespace SeeSharp.Sync
                 data = new Data();
             }
 
-            var existingFileNames = data.Pages.Value.Select(p => p.Value.Name);
+            var registeredFileNames = data.Pages.Value.Select(p => p.Value.Name);
             
             //add pages which have not been registered yet.
             var newItems = new DirectoryInfo(_pagesPath)
@@ -71,7 +71,7 @@ namespace SeeSharp.Sync
                             || file.Extension.ToLower() == ".png"
                             || file.Extension.ToLower() == ".bmp"
                             || file.Extension.ToLower() == ".gif")
-                .Where(file => !existingFileNames.Contains(file.Name))
+                .Where(file => !registeredFileNames.Contains(file.Name))
                 .Select(file => new Page
                 {
                     Name = file.Name,
