@@ -12,6 +12,7 @@ using osuTK;
 using osuTK.Input;
 using SeeSharp.Models;
 using SeeSharp.Screens.Select;
+using SeeSharp.Sync;
 
 namespace SeeSharp
 {
@@ -23,15 +24,15 @@ namespace SeeSharp
         [BackgroundDependencyLoader]
         private void load(SeeSharpStorage storage)
         {
+            var basePath = storage.GetFullPath(string.Empty);
             var pageStorage = storage.GetStorageForDirectory("pages");
             _pagesPath = pageStorage.GetFullPath(string.Empty);
 
             //add TextureStore
             Textures.AddStore(new TextureLoaderStore(new StorageBackedResourceStore(pageStorage)));
 
-            //listen for file changes
-            new PageSync(_pagesPath, _pages);
-            
+            new SyncManager(basePath, _pagesPath, _pages);
+
             Add(new ScreenStack(new SelectScreen(_pages))
             {
                 RelativeSizeAxes = Axes.Both
