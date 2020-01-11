@@ -22,11 +22,7 @@ namespace SeeSharp.Screens.Edit
         private void load(TextureStore textures, SeeSharpStorage storage)
         {
             Texture = textures.Get(_page.Value.Name);
-
-            if (FillMode == FillMode.Fit)
-            {
-                FillAspectRatio = (float) Texture.Width / (float) Texture.Height;
-            }
+            FillAspectRatio = (float) Texture.Width / (float) Texture.Height;
         }
     }
 }
