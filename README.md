@@ -1,4 +1,4 @@
-# SeeSharp
+# 🔎 SeeSharp
 
 ## impaired vision sheet music reader
 
