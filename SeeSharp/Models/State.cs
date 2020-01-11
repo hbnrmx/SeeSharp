@@ -8,7 +8,7 @@ namespace SeeSharp.Models
     {
         public State()
         {
-            Pages = new Bindable<SortedList<BindablePage>>();
+            Pages = new Bindable<SortedList<BindablePage>>(new SortedList<BindablePage>());
         }
         
         [JsonProperty("default_speed")]

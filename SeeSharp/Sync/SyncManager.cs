@@ -53,9 +53,13 @@ namespace SeeSharp.Sync
             catch (IOException e)
             {
                 Logger.Error(e, "failed to retrieve config. Supplying standard config instead.");
-                state = new State();
+                state = new State()
+                {
+                    DefaultSpeed = 0.3f,
+                    DefaultZoom = 1.0f
+                };
             }
-
+            
             var registeredFileNames = state.Pages.Value.Select(p => p.Value.Name);
             
             //add pages which have not been registered yet.
