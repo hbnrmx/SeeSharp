@@ -36,7 +36,7 @@ namespace SeeSharp
 
             var syncManager = new SyncManager(basePath, _pagesPath, _state);
 
-            var selectScreen = new SelectScreen(_state.Value.Pages)
+            var selectScreen = new SelectScreen(_state)
             {
                 Save = () => { syncManager.Save(); }
             };
