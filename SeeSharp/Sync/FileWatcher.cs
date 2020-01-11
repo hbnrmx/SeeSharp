@@ -22,7 +22,6 @@ namespace SeeSharp
                              | NotifyFilters.FileName
             };
 
-            watcher.Created += Update;
             watcher.Deleted += Update;
             watcher.Changed += Update;
             watcher.Renamed += Update;
