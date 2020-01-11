@@ -4,8 +4,13 @@ using osu.Framework.Lists;
 
 namespace SeeSharp.Models
 {
-    public class Data
+    public class State
     {
+        public State()
+        {
+            Pages = new Bindable<SortedList<BindablePage>>();
+        }
+        
         [JsonProperty("default_speed")]
         public float DefaultSpeed;
 

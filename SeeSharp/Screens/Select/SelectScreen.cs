@@ -18,16 +18,16 @@ namespace SeeSharp.Screens.Select
     public class SelectScreen : Screen
     {
         public Action Save;
-        private readonly Bindable<SortedList<BindablePage>> _pages;
+        private readonly Bindable<State> _state;
         private readonly List<MenuItem> _menuItems = new List<MenuItem>();
         private readonly BasicScrollContainer scroll;
         private readonly AddPagesContainer right;
         private readonly AddPagesContainer center;
         private readonly FillFlowContainer<MenuItem> fillFlow;
 
-        public SelectScreen(Bindable<SortedList<BindablePage>> pages)
+        public SelectScreen(Bindable<State> state)
         {
-            _pages = pages;
+            _state = state;
             RelativeSizeAxes = Axes.Both;
             InternalChildren = new Drawable[]
             {
@@ -56,14 +56,14 @@ namespace SeeSharp.Screens.Select
                 center = new AddPagesContainer()       
             };
 
-            _pages.BindValueChanged(_ => Scheduler.AddOnce(load), true);
+            _state.BindValueChanged(_ => Scheduler.AddOnce(load), true);
         }
 
         private void load()
         {
             _menuItems.Clear();
             
-            foreach (var page in _pages.Value)
+            foreach (var page in _state.Value.Pages.Value)
             {
                 _menuItems.Add(new MenuItem(page) {PageSelected = pageSelected});
             }
