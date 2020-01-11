@@ -11,9 +11,9 @@ namespace SeeSharp.Screens.Help
 {
     public class HelpScreen : Screen
     {
-        protected TextFlowContainer textFlow;
-        
-        public HelpScreen()
+        protected readonly TextFlowContainer textFlow;
+
+        protected HelpScreen()
         {
             RelativeSizeAxes = Axes.Both;
 
