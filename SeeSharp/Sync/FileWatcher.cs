@@ -7,10 +7,11 @@ namespace SeeSharp.Sync
     public class FileWatcher
     {
         public Action OnChange;
+        private readonly FileSystemWatcher _watcher;
 
         public FileWatcher(string path, string filter)
         {
-            var watcher = new FileSystemWatcher
+            _watcher = new FileSystemWatcher
             {
                 Path = path,
                 Filter = filter,
@@ -22,11 +23,11 @@ namespace SeeSharp.Sync
                              | NotifyFilters.FileName
             };
 
-            watcher.Deleted += Update;
-            watcher.Changed += Update;
-            watcher.Renamed += Update;
+            _watcher.Deleted += Update;
+            _watcher.Changed += Update;
+            _watcher.Renamed += Update;
         }
-        
+
         private void Update(object _, FileSystemEventArgs __)
         {
             //give some time for the external writing process to unlock the file
@@ -34,5 +35,9 @@ namespace SeeSharp.Sync
             Thread.Sleep(2000);
             OnChange?.Invoke();
         }
+
+        public void Disable() => _watcher.EnableRaisingEvents = false;
+
+        public void Enable() => _watcher.EnableRaisingEvents = true;
     }
 }

@@ -25,20 +25,19 @@ namespace SeeSharp.Sync
             Load();
             Save();
 
-            new FileWatcher(basePath, "pages.json")
+            var configWatcher = new FileWatcher(basePath, "pages.json")
             {
-                OnChange = () => { 
-                    Load();
-                    Save();
-                }
+                OnChange = Load
             };
 
             new FileWatcher(_pagesPath, "*.*")
             {
-                OnChange = () =>
-                {
+                OnChange = () => { 
                     Load();
+                    
+                    configWatcher.Disable();
                     Save();
+                    configWatcher.Enable();
                 }
             };
         }
