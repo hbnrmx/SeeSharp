@@ -96,7 +96,7 @@ namespace SeeSharp.Screens.Play
                         return true;
                     }
 
-                    resetBar();
+                    resetOrPreviousBar();
                     return true;
 
                 case Key.Right:
@@ -107,7 +107,7 @@ namespace SeeSharp.Screens.Play
                         return true;
                     }
 
-                    previousBar();
+                    nextBar();
                     return true;
 
                 default:
@@ -160,6 +160,16 @@ namespace SeeSharp.Screens.Play
         {
             _page.Value.Speed = MathHelper.Clamp(_page.Value.Speed + amount, 0.1f, 4f);
             speedChanged.Invoke(_page.Value.Speed);
+        }
+
+        private void resetOrPreviousBar()
+        {
+            if (container.Children.First().X < -100)
+            { 
+                resetBar();
+                return;
+            }
+            previousBar();
         }
 
         private void previousBar()
