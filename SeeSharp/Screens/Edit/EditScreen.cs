@@ -1,5 +1,6 @@
 ﻿using System;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Shapes;
 using osu.Framework.Input.Events;
 using osu.Framework.Screens;
 using osuTK.Input;
@@ -17,6 +18,11 @@ namespace SeeSharp.Screens.Edit
         public EditScreen(BindablePage page)
         {
             RelativeSizeAxes = Axes.Both;
+            AddInternal(new Box
+            {
+                RelativeSizeAxes = Axes.Both,
+                Colour = Config.Colors["Background"]
+            });
 
             AddInternal(new ModeInfoText(page, Mode.Editing));
 
