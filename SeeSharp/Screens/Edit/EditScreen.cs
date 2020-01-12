@@ -29,7 +29,6 @@ namespace SeeSharp.Screens.Edit
             {
                 case Key.Escape:
                 case Key.Enter:
-                    //TODO: Save
                     SetBarToFirstOrDefault.Invoke();
                     Save.Invoke();
                     this.Exit();
