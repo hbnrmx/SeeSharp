@@ -28,7 +28,10 @@ namespace SeeSharp.Screens.Edit
             switch (e.Key)
             {
                 case Key.Escape:
+                case Key.BackSpace:
                 case Key.Enter:
+                case Key.KeypadEnter:
+                case Key.Space:
                     SetBarToFirstOrDefault.Invoke();
                     Save.Invoke();
                     this.Exit();
