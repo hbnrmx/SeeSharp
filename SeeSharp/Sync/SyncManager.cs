@@ -16,6 +16,8 @@ namespace SeeSharp.Sync
         private string configPath() => Path.Combine(_basePath, "pages.json");
         private readonly Bindable<State> _state;
 
+        private readonly string[] allowedFileExtensions = {".jpg", ".jpeg", ".png",".bmp",".gif"};
+        
         public SyncManager(string basePath, string pagesPath, Bindable<State> state)
         {
             _basePath = basePath;
@@ -65,11 +67,7 @@ namespace SeeSharp.Sync
             //add pages which have not been registered yet.
             var newItems = new DirectoryInfo(_pagesPath)
                 .GetFiles("*.*")
-                .Where(file => file.Extension.ToLower() == ".jpg"
-                            || file.Extension.ToLower() == ".jpeg"
-                            || file.Extension.ToLower() == ".png"
-                            || file.Extension.ToLower() == ".bmp"
-                            || file.Extension.ToLower() == ".gif")
+                .Where(file => allowedFileExtensions.Contains(file.Extension.ToLower()))
                 .Where(file => !registeredFileNames.Contains(file.Name))
                 .Select(file => new Page
                 {
