@@ -179,12 +179,15 @@ namespace SeeSharp.Screens.Play
                 return;
             }
 
-            var first = _page.Value.Bars.FirstOrDefault();
-            if (first != 0f)
+            if (loop)
             {
-                currentBar = first;
-                resetBar();
-                return;
+                var first = _page.Value.Bars.FirstOrDefault();
+                if (first != 0f)
+                {
+                    currentBar = first;
+                    resetBar();
+                    return;
+                }
             }
 
             resetBar();
@@ -198,7 +201,7 @@ namespace SeeSharp.Screens.Play
                 child.X = 0;
             }
         }
-        
+
         public void setBarToFirstOrDefault()
         {
             running = false;

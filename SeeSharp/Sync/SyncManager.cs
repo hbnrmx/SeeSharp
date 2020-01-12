@@ -15,7 +15,6 @@ namespace SeeSharp.Sync
         private readonly string _pagesPath;
         private string configPath() => Path.Combine(_basePath, "pages.json");
         private readonly Bindable<State> _state;
-
         private readonly string[] allowedFileExtensions = {".jpg", ".jpeg", ".png",".bmp",".gif"};
         
         public SyncManager(string basePath, string pagesPath, Bindable<State> state)
