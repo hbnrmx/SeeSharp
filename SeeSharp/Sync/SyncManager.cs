@@ -57,7 +57,7 @@ namespace SeeSharp.Sync
                 state = new State()
                 {
                     DefaultSpeed = 0.3f,
-                    DefaultZoom = 1.0f
+                    DefaultZoom = 3.0f
                 };
             }
             
