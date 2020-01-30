@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using osu.Framework.Allocation;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
@@ -13,38 +14,153 @@ namespace SeeSharp.Screens.Play
 {
     public class PlayZone : Container
     {
-        private readonly BindablePage _page;
-        private readonly Container container;
-        private float currentBar;
-        private bool running;
         public Action<float> zoomChanged;
         public Action<float> speedChanged;
         public Action<float> currentBarChanged;
-
+        
+        private readonly BindablePage _page;
+        private readonly Container zoomContainer;
+        private readonly BindableFloat currentBar = new BindableFloat();
+        private readonly PageSprite spriteA, spriteB;
+        private PageSprite spriteFront, spriteBack;
+        private bool running;
+        private const float PAGE_SEPARATOR_WIDTH = 3f;
+        
         public PlayZone(BindablePage page)
         {
             _page = page;
-
             RelativeSizeAxes = Axes.Both;
             RelativePositionAxes = Axes.Both;
             Origin = Anchor.Centre;
             Anchor = Anchor.Centre;
 
-            Child = container = new Container
+            Child = zoomContainer = new Container
             {
                 RelativeSizeAxes = Axes.Both,
-                Child = new PageSprite(page)
-                {
-                    FillMode = FillMode.Fit
-                },
                 Origin = Anchor.CentreLeft,
-                Anchor = Anchor.Centre
+                Anchor = Anchor.CentreLeft,
+                Children = new Drawable[]
+                {
+                    spriteA = spriteFront = new PageSprite(page)
+                    {
+                        Anchor = Anchor.CentreLeft,
+                        Origin = Anchor.CentreLeft,
+                        FillMode = FillMode.Fit
+                    },
+                    spriteB = spriteBack = new PageSprite(page)
+                    {
+                        Anchor = Anchor.CentreLeft,
+                        Origin = Anchor.CentreLeft,
+                        FillMode = FillMode.Fit
+                    }
+                }
             };
+
+            currentBar.ValueChanged += _ => resetBar();
         }
         
         [BackgroundDependencyLoader]
-        private void Load() => setBarToFirstOrDefault();
+        private void Load() => Scheduler.AddDelayed(jumpToFirstBar, 100);
 
+        protected override void Update()
+        {
+            base.Update();
+            
+            zoomContainer.ScaleTo(_page.Value.Zoom);
+            
+            if (running)
+            {
+                //horizontal Panning
+                float xOffset = (float) Time.Elapsed * _page.Value.Speed / 10f;
+                
+                spriteA.X -= xOffset;
+                spriteB.X -= xOffset;
+                
+                if (spriteBack.X < 0)
+                {
+                    wrapAround();
+                    jumpToNextBar(true);
+                }
+            }
+        }
+
+        private void adjustZoom(float amount)
+        {
+            _page.Value.Zoom = MathHelper.Clamp(_page.Value.Zoom + amount, 0.6f, 8f);
+            zoomChanged.Invoke(_page.Value.Zoom);
+        }
+
+        private void adjustSpeed(float amount)
+        {
+            _page.Value.Speed = MathHelper.Clamp(_page.Value.Speed + amount, 0.1f, 4f);
+            speedChanged.Invoke(_page.Value.Speed);
+        }
+
+        private void resetOrPreviousBar()
+        {
+            //reset if past a quarter of the current Bar
+            if (spriteFront.X < -spriteA.DrawWidth / 4 || currentBar.Value == firstBar())
+            {
+                resetBar();
+                return;
+            }
+
+            jumpToPreviousBar();
+        }
+        
+        public void jumpToFirstBar() => currentBar.Value = firstBar();
+
+        private void jumpToPreviousBar(bool loop = false) => currentBar.Value = previousBar(loop);
+
+        private void jumpToNextBar(bool loop = false) => currentBar.Value = nextBar(loop);
+
+        private float firstBar() => _page.Value.Bars.DefaultIfEmpty(0.5f).First();
+
+        private float lastBar() => _page.Value.Bars.DefaultIfEmpty(0.5f).Last();
+
+        private float previousBar(bool loop = false)
+        {
+            var previous = _page.Value.Bars.LastOrDefault(b => b < currentBar.Value);
+            
+            if (previous == 0)
+            {
+                if (loop) return lastBar();
+                return currentBar.Value;
+            }
+
+            return previous;
+        }
+
+        private float nextBar(bool loop = false)
+        {
+            var next = _page.Value.Bars.FirstOrDefault(b => b > currentBar.Value);
+            
+            if (next == 0)
+            {
+                if (loop) return firstBar();
+                return currentBar.Value;
+            }
+
+            return next;
+        }
+
+        private void resetBar()
+        {
+            spriteFront.X = 0;
+            spriteFront.Y = -(currentBar.Value - 0.5f) * spriteA.DrawHeight;
+            spriteBack.X = spriteA.DrawWidth + PAGE_SEPARATOR_WIDTH;
+            spriteBack.Y = -(nextBar(true) - 0.5f) * spriteA.DrawHeight;
+            currentBarChanged.Invoke(currentBar.Value);
+        }
+
+        private void wrapAround()
+        {
+            spriteFront.X = spriteA.DrawWidth + PAGE_SEPARATOR_WIDTH;
+            spriteFront.Y = -(nextBar(true) - 0.5f) * spriteA.DrawHeight;
+
+            (spriteFront, spriteBack) = (spriteBack, spriteFront);
+        }
+        
         protected override bool OnKeyDown(KeyDownEvent e)
         {
             if (e.Key == Key.Plus || e.Key == Key.KeypadPlus)
@@ -79,12 +195,12 @@ namespace SeeSharp.Screens.Play
 
                 case Key.Up:
                 case Key.W:
-                    previousBar();
+                    jumpToPreviousBar();
                     return true;
 
                 case Key.Down:
                 case Key.S:
-                    nextBar();
+                    jumpToNextBar();
                     return true;
 
                 case Key.Left:
@@ -107,7 +223,7 @@ namespace SeeSharp.Screens.Play
                         return true;
                     }
 
-                    nextBar();
+                    jumpToNextBar();
                     return true;
 
                 default:
@@ -125,99 +241,6 @@ namespace SeeSharp.Screens.Play
 
             adjustZoom(e.ScrollDelta.Y / 5);
             return true;
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-            {
-                Child.ScaleTo(_page.Value.Zoom);
-                foreach (var child in container.Children)
-                {
-                    var yOffset = -(currentBar - 0.5f) * child.DrawHeight;
-                    child.Y = yOffset;
-                    if (running)
-                    {
-                        float xOffset = (float) Time.Elapsed * _page.Value.Speed / 10f;
-                        child.X -= xOffset;
-
-                        if (child.X < -child.DrawWidth)
-                        {
-                            nextBar(true);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void adjustZoom(float amount)
-        {
-            _page.Value.Zoom = MathHelper.Clamp(_page.Value.Zoom + amount, 0.6f, 8f);
-            zoomChanged.Invoke(_page.Value.Zoom);
-        }
-
-        private void adjustSpeed(float amount)
-        {
-            _page.Value.Speed = MathHelper.Clamp(_page.Value.Speed + amount, 0.1f, 4f);
-            speedChanged.Invoke(_page.Value.Speed);
-        }
-
-        private void resetOrPreviousBar()
-        {
-            if (container.Children.First().X < -100)
-            { 
-                resetBar();
-                return;
-            }
-            previousBar();
-        }
-
-        private void previousBar()
-        {
-            var previous = _page.Value.Bars.LastOrDefault(b => b < currentBar);
-            currentBar = previous != 0f ? previous : currentBar;
-            resetBar();
-        }
-
-        private void nextBar(bool loop = false)
-        {
-            var next = _page.Value.Bars.FirstOrDefault(b => b > currentBar);
-            if (next != 0f)
-            {
-                currentBar = next;
-                resetBar();
-                return;
-            }
-
-            if (loop)
-            {
-                var first = _page.Value.Bars.FirstOrDefault();
-                if (first != 0f)
-                {
-                    currentBar = first;
-                    resetBar();
-                    return;
-                }
-            }
-
-            resetBar();
-        }
-
-        private void resetBar()
-        {
-            currentBarChanged.Invoke(currentBar);
-            foreach (var child in container.Children)
-            {
-                child.X = 0;
-            }
-        }
-
-        public void setBarToFirstOrDefault()
-        {
-            running = false;
-            currentBar = _page.Value.Bars.DefaultIfEmpty(0.5f).First();
-            resetBar();
-            
         }
     }
 }

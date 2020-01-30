@@ -50,7 +50,7 @@ namespace SeeSharp.Screens.Play
                     this.Push(new EditScreen(_page)
                     {
                         Save = Save,
-                        SetBarToFirstOrDefault = _playZone.setBarToFirstOrDefault
+                        SetBarToFirstOrDefault = _playZone.jumpToFirstBar
                     });
                     return true;
 
