@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using osu.Framework.Graphics;
 using osu.Framework.Input.Events;
 using osu.Framework.Screens;
@@ -19,7 +20,7 @@ namespace SeeSharp.Screens.Play
         public PlayScreen(BindablePage page)
         {
             _page = page;
-            
+
             ZoomInfoText zoom;
             SpeedInfoText speed;
             BarInfoText currentBar;
@@ -36,6 +37,19 @@ namespace SeeSharp.Screens.Play
                 zoomChanged = zoom.UpdateInfo,
                 currentBarChanged = currentBar.UpdateInfo
             });
+
+            //skip right to EditScreen when empty
+            OnLoadComplete += _ =>
+            {
+                if (!_page.Value.Bars.Any())
+                {
+                    this.Push(new EditScreen(_page)
+                    {
+                        Save = Save,
+                        SetBarToFirstOrDefault = _playZone.jumpToFirstBar
+                    });
+                }
+            };
         }
 
         protected override bool OnKeyDown(KeyDownEvent e)
@@ -60,6 +74,15 @@ namespace SeeSharp.Screens.Play
 
                 default:
                     return false;
+            }
+        }
+
+        //skip right to SelectScreen when empty
+        public override void OnResuming(IScreen _)
+        {
+            if (!_page.Value.Bars.Any())
+            {
+                this.Exit();
             }
         }
     }
