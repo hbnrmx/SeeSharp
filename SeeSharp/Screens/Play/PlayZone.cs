@@ -227,15 +227,13 @@ namespace SeeSharp.Screens.Play
             }
         }
 
-        protected override bool OnKeyUp(KeyUpEvent e)
+        protected override void OnKeyUp(KeyUpEvent e)
         {
             switch (e.Key)
             {
                 case Key.Space:
                     running = !running;
-                    return true;
-                default:
-                    return false;
+                    break;
             }
         }
 

@@ -48,16 +48,13 @@ namespace SeeSharp.Screens.Help
             t.Shear = new Vector2(0.3f,0);
         }
 
-        protected override bool OnKeyUp(KeyUpEvent e)
+        protected override void OnKeyUp(KeyUpEvent e)
         {
             switch (e.Key)
             {
                 case Key.F1:
                     this.Exit();
-                    return true;
-
-                default:
-                    return false;
+                    break;
             }
         }
     }

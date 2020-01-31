@@ -50,13 +50,11 @@ namespace SeeSharp.Screens.Edit
 
         protected override bool OnDragStart(DragStartEvent e) => true;
 
-        protected override bool OnDrag(DragEvent e)
+        protected override void OnDrag(DragEvent e)
         {
             var oldY = Y;
             Y = MathHelper.Clamp(e.MousePosition.Y / Parent.DrawHeight, 0, 1);
             OnPositionChange.Invoke(oldY, Y);
-
-            return true;
         }
 
         protected override bool OnClick(ClickEvent e)
