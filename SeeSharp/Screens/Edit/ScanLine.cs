@@ -53,7 +53,7 @@ namespace SeeSharp.Screens.Edit
         protected override void OnDrag(DragEvent e)
         {
             var oldY = Y;
-            Y = MathHelper.Clamp(e.MousePosition.Y / Parent.DrawHeight, 0, 1);
+            Y = Math.Clamp(e.MousePosition.Y / Parent.DrawHeight, 0, 1);
             OnPositionChange.Invoke(oldY, Y);
         }
 

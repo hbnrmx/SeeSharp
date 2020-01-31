@@ -5,7 +5,6 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
-using osuTK;
 using osuTK.Input;
 using SeeSharp.Models;
 using SeeSharp.Screens.Edit;
@@ -86,13 +85,13 @@ namespace SeeSharp.Screens.Play
 
         private void adjustZoom(float amount)
         {
-            _page.Value.Zoom = MathHelper.Clamp(_page.Value.Zoom + amount, 0.6f, 8f);
+            _page.Value.Zoom = Math.Clamp(_page.Value.Zoom + amount, 0.6f, 8f);
             zoomChanged.Invoke(_page.Value.Zoom);
         }
 
         private void adjustSpeed(float amount)
         {
-            _page.Value.Speed = MathHelper.Clamp(_page.Value.Speed + amount, 0.1f, 4f);
+            _page.Value.Speed = Math.Clamp(_page.Value.Speed + amount, 0.1f, 4f);
             speedChanged.Invoke(_page.Value.Speed);
         }
 
