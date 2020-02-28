@@ -188,6 +188,10 @@ namespace SeeSharp.Screens.Play
 
             switch (e.Key)
             {
+                case Key.Space:
+                    running = !running;
+                    return true;
+
                 case Key.Up:
                 case Key.W:
                     jumpToPreviousBar();
@@ -223,16 +227,6 @@ namespace SeeSharp.Screens.Play
 
                 default:
                     return false;
-            }
-        }
-
-        protected override void OnKeyUp(KeyUpEvent e)
-        {
-            switch (e.Key)
-            {
-                case Key.Space:
-                    running = !running;
-                    break;
             }
         }
 
