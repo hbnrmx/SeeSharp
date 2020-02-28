@@ -63,13 +63,14 @@ namespace SeeSharp.Screens.Select
         {
             _menuItems.Clear();
             
-            foreach (var page in _state.Value.Pages.Value)
+            foreach (var page in _state.Value.Pages)
             {
                 _menuItems.Add(new MenuItem(page) {PageSelected = pageSelected});
             }
 
             if (_menuItems.Any())
             {
+                _menuItems.Sort();
                 fillFlow.Children = _menuItems;
                 
                 scroll.Show();

@@ -57,6 +57,7 @@ namespace SeeSharp.Screens.Play
             switch (e.Key)
             {
                 case Key.Escape:
+                    Save.Invoke();
                     this.Exit();
                     return true;
 

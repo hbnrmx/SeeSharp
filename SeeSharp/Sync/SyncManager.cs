@@ -61,7 +61,7 @@ namespace SeeSharp.Sync
                 };
             }
             
-            var registeredFileNames = state.Pages.Value.Select(p => p.Value.Name);
+            var registeredFileNames = state.Pages.Select(p => p.Value.Name);
             
             //add pages which have not been registered yet.
             var newItems = new DirectoryInfo(_pagesPath)
@@ -77,13 +77,13 @@ namespace SeeSharp.Sync
                 })
                 .Select(page => new BindablePage(page));
                 
-                state.Pages.Value.AddRange(newItems);
+                state.Pages.AddRange(newItems);
             
             //remove pages which cannot be found in the folder anymore.
-            var oldItems = state.Pages.Value
+            var oldItems = state.Pages
                 .Where(page => !File.Exists(Path.Combine(_pagesPath, page.Value.Name)));
 
-            state.Pages.Value.RemoveAll(item => oldItems.Contains(item));
+            state.Pages.RemoveAll(item => oldItems.Contains(item));
             
             //set new Value
             _state.Value = state;
@@ -91,8 +91,7 @@ namespace SeeSharp.Sync
 
         public bool Save()
         {
-            var state = _state;
-            return SaveToConfig(configPath(), state);
+            return SaveToConfig(configPath(), _state);
         }
 
         private T LoadFromConfig<T>(string path)
