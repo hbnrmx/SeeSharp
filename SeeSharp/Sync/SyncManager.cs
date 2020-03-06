@@ -100,6 +100,11 @@ namespace SeeSharp.Sync
             {
                 using (StreamReader file = File.OpenText(path))
                 {
+                    if (new FileInfo(path).Length == 0)
+                    {
+                        throw new FileLoadException();
+                    }
+
                     JsonSerializer serializer = new JsonSerializer();
                     return (T) serializer.Deserialize(file, typeof(T));
                 }
