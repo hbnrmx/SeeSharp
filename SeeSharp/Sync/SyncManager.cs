@@ -14,14 +14,14 @@ namespace SeeSharp.Sync
         private readonly string _basePath;
         private readonly string _pagesPath;
         private string configPath() => Path.Combine(_basePath, "pages.json");
-        private readonly Bindable<State> _state;
+        private readonly Bindable<State> _state = new Bindable<State>();
         private readonly string[] allowedFileExtensions = {".jpg", ".jpeg", ".png",".bmp",".gif"};
         
         public SyncManager(string basePath, string pagesPath, Bindable<State> state)
         {
             _basePath = basePath;
             _pagesPath = pagesPath;
-            _state = state;
+            _state.BindTo(state);
 
             Load();
             Save();
@@ -71,8 +71,8 @@ namespace SeeSharp.Sync
                 .Select(file => new Page
                 {
                     Name = file.Name,
-                    Speed = state.DefaultSpeed,
-                    Zoom = state.DefaultZoom,
+                    Speed = new BindableFloat(state.DefaultSpeed),
+                    Zoom = new BindableFloat(state.DefaultZoom),
                     Bars = new SortedList<float>()
                 })
                 .Select(page => new BindablePage(page));

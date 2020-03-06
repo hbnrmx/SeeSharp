@@ -10,11 +10,11 @@ namespace SeeSharp.Screens.Edit
 {
     public class EditZone : Container
     {
-        private readonly BindablePage _page;
+        private readonly BindablePage _page = new BindablePage();
 
         public EditZone(BindablePage page)
         {
-            _page = page;
+            _page.BindTo(page);
 
             FillMode = FillMode.Fit;
             RelativeSizeAxes = Axes.Both;
@@ -23,7 +23,7 @@ namespace SeeSharp.Screens.Edit
             Anchor = Anchor.Centre;
             Masking = true;
 
-            Child = new PageSprite(page);
+            Child = new PageSprite(_page);
         }
 
         [BackgroundDependencyLoader]

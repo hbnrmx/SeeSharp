@@ -14,13 +14,13 @@ namespace SeeSharp.Screens.Select
 {
     public class MenuItem : Container, IComparable<MenuItem>
     {
-        private readonly BindablePage _page;
+        private readonly BindablePage _page = new BindablePage();
         public Action<BindablePage> PageSelected;
         private SpriteText _text;
 
         public MenuItem(BindablePage page)
         {
-            _page = page;
+            _page.BindTo(page);
         }
 
         [BackgroundDependencyLoader]

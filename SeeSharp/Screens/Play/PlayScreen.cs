@@ -14,12 +14,12 @@ namespace SeeSharp.Screens.Play
     public class PlayScreen : Screen
     {
         public Action Save;
-        private readonly BindablePage _page;
+        private readonly BindablePage _page = new BindablePage();
         private readonly PlayZone _playZone;
 
         public PlayScreen(BindablePage page)
         {
-            _page = page;
+            _page.BindTo(page);
 
             ZoomInfoText zoom;
             SpeedInfoText speed;
@@ -27,11 +27,11 @@ namespace SeeSharp.Screens.Play
 
             RelativeSizeAxes = Axes.Both;
 
-            AddInternal(new ModeInfoText(page, Mode.Playing));
-            AddInternal(currentBar = new BarInfoText(page));
-            AddInternal(speed = new SpeedInfoText(page));
-            AddInternal(zoom = new ZoomInfoText(page));
-            AddInternal(_playZone = new PlayZone(page)
+            AddInternal(new ModeInfoText(_page, Mode.Playing));
+            AddInternal(currentBar = new BarInfoText(_page));
+            AddInternal(speed = new SpeedInfoText(_page));
+            AddInternal(zoom = new ZoomInfoText(_page));
+            AddInternal(_playZone = new PlayZone(_page)
             {
                 speedChanged = speed.UpdateInfo,
                 zoomChanged = zoom.UpdateInfo,

@@ -6,11 +6,11 @@ namespace SeeSharp.Text
 {
     public class BarInfoText : InfoText
     {
-        private readonly BindablePage _page;
+        private readonly BindablePage _page = new BindablePage();
 
         public BarInfoText(BindablePage page)
         {
-            _page = page;
+            _page.BindTo(page);
             Margin = new MarginPadding{Top = 40};
             Font = new FontUsage().With(size: 150);
         }

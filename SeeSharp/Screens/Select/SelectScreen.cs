@@ -18,7 +18,7 @@ namespace SeeSharp.Screens.Select
     public class SelectScreen : Screen
     {
         public Action Save;
-        private readonly Bindable<State> _state;
+        private readonly Bindable<State> _state = new Bindable<State>();
         private readonly List<MenuItem> _menuItems = new List<MenuItem>();
         private readonly BasicScrollContainer scroll;
         private readonly AddPagesContainer right;
@@ -27,7 +27,7 @@ namespace SeeSharp.Screens.Select
 
         public SelectScreen(Bindable<State> state)
         {
-            _state = state;
+            _state.BindTo(state);
             RelativeSizeAxes = Axes.Both;
             InternalChildren = new Drawable[]
             {

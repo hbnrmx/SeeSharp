@@ -8,11 +8,11 @@ namespace SeeSharp.Screens.Edit
 {
     public class PageSprite : Sprite
     {
-        private readonly BindablePage _page;
+        private readonly BindablePage _page = new BindablePage();
 
         public PageSprite(BindablePage page)
         {
-            _page = page;
+            _page.BindTo(page);
             Anchor = Anchor.TopLeft;
             Origin = Anchor.TopLeft;
             RelativeSizeAxes = Axes.Both;
