@@ -122,8 +122,8 @@ namespace SeeSharp.Sync
             {
                 JsonSerializer serializer = new JsonSerializer {Formatting = Formatting.Indented};
             
-                using (StreamWriter sw = new StreamWriter(path))
-                using (JsonWriter jw = new JsonTextWriter(sw))
+                using (var sw = new StreamWriter(path))
+                using (var jw = new JsonTextWriter(sw))
                 {
                     serializer.Serialize(jw, data);
                 }
