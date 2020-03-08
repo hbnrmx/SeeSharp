@@ -5,11 +5,14 @@ namespace SeeSharp.Text
 {
     public class SpeedInfoText : InfoText
     {
+        private readonly BindablePage _page = new BindablePage();
+        
         public SpeedInfoText(BindablePage page)
         {
+            _page.BindTo(page);
             Anchor = Anchor.BottomRight;
             Origin = Anchor.BottomRight;
-            Text = $"Speed: {page.Value.Speed:P}";
+            Text = $"Speed: {_page.Value.Speed:P}";
             Margin = new MarginPadding {Right = 30, Bottom = 40};
         }
 

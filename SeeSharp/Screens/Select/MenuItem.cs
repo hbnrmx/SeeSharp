@@ -12,15 +12,15 @@ using SeeSharp.Screens.Edit;
 
 namespace SeeSharp.Screens.Select
 {
-    public class MenuItem : Container
+    public class MenuItem : Container, IComparable<MenuItem>
     {
-        private readonly BindablePage _page;
+        private readonly BindablePage _page = new BindablePage();
         public Action<BindablePage> PageSelected;
         private SpriteText _text;
 
         public MenuItem(BindablePage page)
         {
-            _page = page;
+            _page.BindTo(page);
         }
 
         [BackgroundDependencyLoader]
@@ -78,5 +78,7 @@ namespace SeeSharp.Screens.Select
             BorderThickness = 0f;
             _text.Colour = Config.Colors["White"];
         }
+
+        public int CompareTo(MenuItem other) => Path.GetFileNameWithoutExtension(_page.Value.Name).CompareTo(Path.GetFileNameWithoutExtension(other._page.Value.Name));
     }
 }

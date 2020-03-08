@@ -5,11 +5,14 @@ namespace SeeSharp.Text
 {
     public class ZoomInfoText : InfoText
     {
+        private readonly BindablePage _page = new BindablePage();
+        
         public ZoomInfoText(BindablePage page)
         {
+            _page.BindTo(page);
             Anchor = Anchor.BottomRight;
             Origin = Anchor.BottomRight;
-            Text = $"Zoom: {page.Value.Zoom:P}";
+            Text = $"Zoom: {_page.Value.Zoom:P}";
             Margin = new MarginPadding {Right = 30};
         }
 

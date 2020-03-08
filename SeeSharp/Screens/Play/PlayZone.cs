@@ -17,7 +17,7 @@ namespace SeeSharp.Screens.Play
         public Action<float> speedChanged;
         public Action<float> currentBarChanged;
         
-        private readonly BindablePage _page;
+        private readonly BindablePage _page = new BindablePage();
         private readonly Container zoomContainer;
         private readonly BindableFloat currentBar = new BindableFloat();
         private readonly PageSprite spriteA, spriteB;
@@ -27,7 +27,7 @@ namespace SeeSharp.Screens.Play
         
         public PlayZone(BindablePage page)
         {
-            _page = page;
+            _page.BindTo(page);
             RelativeSizeAxes = Axes.Both;
             RelativePositionAxes = Axes.Both;
             Origin = Anchor.Centre;
@@ -40,13 +40,13 @@ namespace SeeSharp.Screens.Play
                 Anchor = Anchor.CentreLeft,
                 Children = new Drawable[]
                 {
-                    spriteA = spriteFront = new PageSprite(page)
+                    spriteA = spriteFront = new PageSprite(_page)
                     {
                         Anchor = Anchor.CentreLeft,
                         Origin = Anchor.CentreLeft,
                         FillMode = FillMode.Fit
                     },
-                    spriteB = spriteBack = new PageSprite(page)
+                    spriteB = spriteBack = new PageSprite(_page)
                     {
                         Anchor = Anchor.CentreLeft,
                         Origin = Anchor.CentreLeft,
@@ -65,11 +65,11 @@ namespace SeeSharp.Screens.Play
         protected override void Update()
         {
             base.Update();
-            
+
             if (running)
             {
                 //horizontal Panning
-                float xOffset = (float) Time.Elapsed * _page.Value.Speed / 10f;
+                float xOffset = (float) Time.Elapsed * _page.Value.Speed.Value / 10f;
                 
                 spriteA.X -= xOffset;
                 spriteB.X -= xOffset;
@@ -84,15 +84,15 @@ namespace SeeSharp.Screens.Play
 
         private void adjustZoom(float amount)
         {
-            _page.Value.Zoom = Math.Clamp(_page.Value.Zoom + amount, 0.6f, 8f);
+            _page.Value.Zoom.Value += amount;
             zoomContainer.ScaleTo(_page.Value.Zoom, 100, Easing.InOutQuad);
-            zoomChanged.Invoke(_page.Value.Zoom);
+            zoomChanged.Invoke(_page.Value.Zoom.Value);
         }
 
         private void adjustSpeed(float amount)
         {
-            _page.Value.Speed = Math.Clamp(_page.Value.Speed + amount, 0.1f, 4f);
-            speedChanged.Invoke(_page.Value.Speed);
+            _page.Value.Speed.Value += amount;
+            speedChanged.Invoke(_page.Value.Speed.Value);
         }
 
         private void resetOrPreviousBar()

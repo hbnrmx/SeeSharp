@@ -14,21 +14,22 @@ namespace SeeSharp.Sync
         private readonly string _basePath;
         private readonly string _pagesPath;
         private string configPath() => Path.Combine(_basePath, "pages.json");
-        private readonly Bindable<State> _state;
+        private readonly Bindable<State> _state = new Bindable<State>();
         private readonly string[] allowedFileExtensions = {".jpg", ".jpeg", ".png",".bmp",".gif"};
         
         public SyncManager(string basePath, string pagesPath, Bindable<State> state)
         {
             _basePath = basePath;
             _pagesPath = pagesPath;
-            _state = state;
+            _state.BindTo(state);
 
             Load();
             Save();
 
             var configWatcher = new FileWatcher(basePath, "pages.json")
             {
-                OnChange = Load
+                //OnChange = Load
+                //stop loading for now
             };
 
             new FileWatcher(_pagesPath, "*.*")
@@ -61,7 +62,7 @@ namespace SeeSharp.Sync
                 };
             }
             
-            var registeredFileNames = state.Pages.Value.Select(p => p.Value.Name);
+            var registeredFileNames = state.Pages.Select(p => p.Value.Name);
             
             //add pages which have not been registered yet.
             var newItems = new DirectoryInfo(_pagesPath)
@@ -71,28 +72,32 @@ namespace SeeSharp.Sync
                 .Select(file => new Page
                 {
                     Name = file.Name,
-                    Speed = state.DefaultSpeed,
-                    Zoom = state.DefaultZoom,
+                    Speed = new BindableFloat(state.DefaultSpeed),
+                    Zoom = new BindableFloat(state.DefaultZoom),
                     Bars = new SortedList<float>()
                 })
                 .Select(page => new BindablePage(page));
                 
-                state.Pages.Value.AddRange(newItems);
+                state.Pages.AddRange(newItems);
             
             //remove pages which cannot be found in the folder anymore.
-            var oldItems = state.Pages.Value
+            var oldItems = state.Pages
                 .Where(page => !File.Exists(Path.Combine(_pagesPath, page.Value.Name)));
 
-            state.Pages.Value.RemoveAll(item => oldItems.Contains(item));
+            state.Pages.RemoveAll(item => oldItems.Contains(item));
             
             //set new Value
             _state.Value = state;
         }
 
+        private readonly object saveLock = new object();
         public bool Save()
         {
-            var state = _state;
-            return SaveToConfig(configPath(), state);
+            lock (saveLock)
+            {
+                return SaveToConfig(configPath(), _state);
+            }
+            
         }
 
         private T LoadFromConfig<T>(string path)
@@ -101,6 +106,11 @@ namespace SeeSharp.Sync
             {
                 using (StreamReader file = File.OpenText(path))
                 {
+                    if (new FileInfo(path).Length == 0)
+                    {
+                        throw new FileLoadException();
+                    }
+
                     JsonSerializer serializer = new JsonSerializer();
                     return (T) serializer.Deserialize(file, typeof(T));
                 }
@@ -118,8 +128,8 @@ namespace SeeSharp.Sync
             {
                 JsonSerializer serializer = new JsonSerializer {Formatting = Formatting.Indented};
             
-                using (StreamWriter sw = new StreamWriter(path))
-                using (JsonWriter jw = new JsonTextWriter(sw))
+                using (var sw = new StreamWriter(path))
+                using (var jw = new JsonTextWriter(sw))
                 {
                     serializer.Serialize(jw, data);
                 }
