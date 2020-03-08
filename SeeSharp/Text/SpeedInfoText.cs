@@ -12,7 +12,7 @@ namespace SeeSharp.Text
             _page.BindTo(page);
             Anchor = Anchor.BottomRight;
             Origin = Anchor.BottomRight;
-            Text = $"Speed: {_page.Value.Speed:P}";
+            Text = $"Speed: {_page.Value.Speed.Value:P}";
             Margin = new MarginPadding {Right = 30, Bottom = 40};
         }
 

@@ -12,7 +12,7 @@ namespace SeeSharp.Text
             _page.BindTo(page);
             Anchor = Anchor.BottomRight;
             Origin = Anchor.BottomRight;
-            Text = $"Zoom: {_page.Value.Zoom:P}";
+            Text = $"Zoom: {_page.Value.Zoom.Value:P}";
             Margin = new MarginPadding {Right = 30};
         }
 
