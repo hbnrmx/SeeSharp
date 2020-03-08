@@ -89,9 +89,14 @@ namespace SeeSharp.Sync
             _state.Value = state;
         }
 
+        private readonly object saveLock = new object();
         public bool Save()
         {
-            return SaveToConfig(configPath(), _state);
+            lock (saveLock)
+            {
+                return SaveToConfig(configPath(), _state);
+            }
+            
         }
 
         private T LoadFromConfig<T>(string path)
