@@ -56,6 +56,7 @@ namespace SeeSharp.Screens.Play
             };
 
             currentBar.ValueChanged += _ => resetBar();
+            zoomContainer.ScaleTo(_page.Value.Zoom);
         }
         
         [BackgroundDependencyLoader]
@@ -64,9 +65,7 @@ namespace SeeSharp.Screens.Play
         protected override void Update()
         {
             base.Update();
-            
-            zoomContainer.ScaleTo(_page.Value.Zoom.Value);
-            
+
             if (running)
             {
                 //horizontal Panning
@@ -86,6 +85,7 @@ namespace SeeSharp.Screens.Play
         private void adjustZoom(float amount)
         {
             _page.Value.Zoom.Value += amount;
+            zoomContainer.ScaleTo(_page.Value.Zoom, 100, Easing.InOutQuad);
             zoomChanged.Invoke(_page.Value.Zoom.Value);
         }
 
@@ -188,6 +188,10 @@ namespace SeeSharp.Screens.Play
 
             switch (e.Key)
             {
+                case Key.Space:
+                    running = !running;
+                    return true;
+
                 case Key.Up:
                 case Key.W:
                     jumpToPreviousBar();
@@ -223,16 +227,6 @@ namespace SeeSharp.Screens.Play
 
                 default:
                     return false;
-            }
-        }
-
-        protected override void OnKeyUp(KeyUpEvent e)
-        {
-            switch (e.Key)
-            {
-                case Key.Space:
-                    running = !running;
-                    break;
             }
         }
 
