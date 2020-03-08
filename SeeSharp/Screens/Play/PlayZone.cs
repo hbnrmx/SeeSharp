@@ -56,7 +56,7 @@ namespace SeeSharp.Screens.Play
             };
 
             currentBar.ValueChanged += _ => resetBar();
-            zoomContainer.ScaleTo(_page.Value.Zoom);
+            zoomContainer.ScaleTo(_page.Value.Zoom.Value);
         }
         
         [BackgroundDependencyLoader]
@@ -85,7 +85,7 @@ namespace SeeSharp.Screens.Play
         private void adjustZoom(float amount)
         {
             _page.Value.Zoom.Value += amount;
-            zoomContainer.ScaleTo(_page.Value.Zoom, 100, Easing.InOutQuad);
+            zoomContainer.ScaleTo(_page.Value.Zoom.Value, 100, Easing.InOutQuad);
             zoomChanged.Invoke(_page.Value.Zoom.Value);
         }
 
