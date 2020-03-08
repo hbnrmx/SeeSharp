@@ -28,7 +28,8 @@ namespace SeeSharp.Sync
 
             var configWatcher = new FileWatcher(basePath, "pages.json")
             {
-                OnChange = Load
+                //OnChange = Load
+                //stop loading for now
             };
 
             new FileWatcher(_pagesPath, "*.*")
