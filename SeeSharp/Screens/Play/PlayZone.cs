@@ -111,7 +111,15 @@ namespace SeeSharp.Screens.Play
 
         private void jumpToPreviousBar(bool loop = false) => currentBar.Value = previousBar(loop);
 
-        private void jumpToNextBar(bool loop = false) => currentBar.Value = nextBar(loop);
+        private void jumpToNextBar(bool loop = false)
+        {
+            if (currentBar.Value == lastBar())
+            {
+                PageEnd.Invoke();
+            }
+
+            currentBar.Value = nextBar(loop);
+        }
 
         private float firstBar() => _page.Value.Bars.DefaultIfEmpty(0.5f).First();
 

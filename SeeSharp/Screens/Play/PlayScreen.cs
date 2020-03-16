@@ -14,6 +14,8 @@ namespace SeeSharp.Screens.Play
     public class PlayScreen : Screen
     {
         public Action Save;
+        public Action PageEnd;
+        
         private readonly BindablePage _page = new BindablePage();
         private readonly PlayZone _playZone;
 
@@ -35,7 +37,8 @@ namespace SeeSharp.Screens.Play
             {
                 speedChanged = speed.UpdateInfo,
                 zoomChanged = zoom.UpdateInfo,
-                currentBarChanged = currentBar.UpdateInfo
+                currentBarChanged = currentBar.UpdateInfo,
+                PageEnd = PageEnd
             });
 
             //skip right to EditScreen when empty
