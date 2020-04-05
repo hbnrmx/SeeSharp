@@ -19,7 +19,7 @@ namespace SeeSharp.Screens.Edit
         }
 
         [BackgroundDependencyLoader]
-        private void load(LargeTextureStore textures, SeeSharpStorage storage)
+        private void load(LargeTextureStore textures)
         {
             Texture = textures.Get(_page.Value.Name);
             FillAspectRatio = (float) Texture.Width / (float) Texture.Height;
