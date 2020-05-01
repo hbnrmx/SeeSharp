@@ -53,8 +53,7 @@ namespace SeeSharp.Screens.Select
                 {
                     RelativeSizeAxes = Axes.None,
                     Height = 141f
-                }
-                , 
+                }, 
                 _text = new SpriteText
                 {
                     Anchor = Anchor.CentreLeft,
