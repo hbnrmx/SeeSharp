@@ -42,13 +42,19 @@ namespace SeeSharp.Screens.Select
                     Colour = Config.Colors["Background"],
                     EdgeSmoothness = new Vector2(1.5f, 0)
                 },
-                new PageSprite(_page)
+                new DelayedLoadWrapper(
+                    new PageSprite(_page)
+                    {
+                        RelativeSizeAxes = Axes.Y,
+                        FillMode = FillMode.Fit,
+                        Width = 100f,
+                    }
+                )
                 {
                     RelativeSizeAxes = Axes.None,
-                    FillMode = FillMode.Fit,
-                    Height = 141f,
-                    Width = 100f,
-                }, 
+                    Height = 141f
+                }
+                , 
                 _text = new SpriteText
                 {
                     Anchor = Anchor.CentreLeft,
