@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -63,12 +62,15 @@ namespace SeeSharp.Screens.Play
                 resetBar();
                 currentBarChanged?.Invoke(e.NewValue);
             };
-                        
+
             zoomContainer.ScaleTo(_page.Value.Zoom.Value);
         }
 
-        [BackgroundDependencyLoader]
-        private void Load() => Scheduler.AddDelayed(jumpToFirstBar, 100);
+        protected override void LoadComplete()
+        {
+            base.LoadComplete();
+            jumpToFirstBar();
+        }
 
         protected override void Update()
         {
