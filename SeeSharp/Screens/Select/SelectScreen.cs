@@ -5,7 +5,6 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
-using osu.Framework.Lists;
 using osu.Framework.Screens;
 using osuTK;
 using osuTK.Input;
@@ -85,12 +84,25 @@ namespace SeeSharp.Screens.Select
             }
         }
 
-        private void pageSelected(BindablePage page)
+        private void pageSelected(BindablePage page, bool runningStart = false)
         {
-            this.Push(new PlayScreen(page)
+            this.Push(new PlayScreen(page, runningStart)
             {
-                Save = Save
+                Save = Save,
+                NextPage = selectNextPage
             });
+        }
+
+        private void selectNextPage(Page currentPage, bool runningStart)
+        {
+            var pages = _state.Value.Pages;
+            
+            var currentBindable = pages.First(bind => bind.Value == currentPage);
+    
+            var nextBindableIndex = (pages.IndexOf(currentBindable) + 1) % pages.Count;
+            var nextBindable = pages[nextBindableIndex];
+            
+            pageSelected(nextBindable, runningStart);
         }
 
         protected override bool OnKeyDown(KeyDownEvent e)

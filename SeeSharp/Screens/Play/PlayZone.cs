@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -13,6 +12,7 @@ namespace SeeSharp.Screens.Play
 {
     public class PlayZone : Container
     {
+        public Action<bool> PageEnd;
         public Action<float> zoomChanged;
         public Action<float> speedChanged;
         public Action<float> currentBarChanged;
@@ -22,12 +22,14 @@ namespace SeeSharp.Screens.Play
         private readonly BindableFloat currentBar = new BindableFloat();
         private readonly PageSprite spriteA, spriteB;
         private PageSprite spriteFront, spriteBack;
-        private bool running;
+        private bool _running;
         private const float PAGE_SEPARATOR_WIDTH = 3f;
         
-        public PlayZone(BindablePage page)
+        public PlayZone(BindablePage page, bool runningStart = false)
         {
             _page.BindTo(page);
+
+            _running = runningStart;
             RelativeSizeAxes = Axes.Both;
             RelativePositionAxes = Axes.Both;
             Origin = Anchor.Centre;
@@ -55,18 +57,26 @@ namespace SeeSharp.Screens.Play
                 }
             };
 
-            currentBar.ValueChanged += _ => resetBar();
+            currentBar.ValueChanged += e =>
+            {
+                resetBar();
+                currentBarChanged?.Invoke(e.NewValue);
+            };
+
             zoomContainer.ScaleTo(_page.Value.Zoom.Value);
         }
-        
-        [BackgroundDependencyLoader]
-        private void Load() => Scheduler.AddDelayed(jumpToFirstBar, 100);
+
+        protected override void LoadComplete()
+        {
+            base.LoadComplete();
+            jumpToFirstBar();
+        }
 
         protected override void Update()
         {
             base.Update();
 
-            if (running)
+            if (_running)
             {
                 //horizontal Panning
                 float xOffset = (float) Time.Elapsed * _page.Value.Speed.Value / 10f;
@@ -107,11 +117,30 @@ namespace SeeSharp.Screens.Play
             jumpToPreviousBar();
         }
         
-        public void jumpToFirstBar() => currentBar.Value = firstBar();
+        public void jumpToFirstBar()
+        {
+            if (currentBar.Value == firstBar())
+            {
+                currentBar.TriggerChange();
+            }
+            else
+            {
+                currentBar.Value = firstBar();
+            }
+        }
 
         private void jumpToPreviousBar(bool loop = false) => currentBar.Value = previousBar(loop);
 
-        private void jumpToNextBar(bool loop = false) => currentBar.Value = nextBar(loop);
+        private void jumpToNextBar(bool loop = false)
+        {
+            if (currentBar.Value == lastBar())
+            {
+                PageEnd?.Invoke(_running);
+                return;
+            }
+
+            currentBar.Value = nextBar(loop);
+        }
 
         private float firstBar() => _page.Value.Bars.DefaultIfEmpty(0.5f).First();
 
@@ -149,7 +178,15 @@ namespace SeeSharp.Screens.Play
             spriteFront.Y = -(currentBar.Value - 0.5f) * spriteA.DrawHeight;
             spriteBack.X = spriteA.DrawWidth + PAGE_SEPARATOR_WIDTH;
             spriteBack.Y = -(nextBar(true) - 0.5f) * spriteA.DrawHeight;
-            currentBarChanged.Invoke(currentBar.Value);
+            
+            if (currentBar.Value == lastBar())
+            {
+                spriteBack.Hide();
+            }
+            else
+            {
+                spriteBack.Show();
+            }
         }
 
         private void wrapAround()
@@ -189,7 +226,7 @@ namespace SeeSharp.Screens.Play
             switch (e.Key)
             {
                 case Key.Space:
-                    running = !running;
+                    _running = !_running;
                     return true;
 
                 case Key.Up:
@@ -205,7 +242,7 @@ namespace SeeSharp.Screens.Play
                 case Key.Left:
                 case Key.A:
                 case Key.BackSpace:
-                    if (running)
+                    if (_running)
                     {
                         adjustSpeed(-0.1f);
                         return true;
@@ -216,7 +253,7 @@ namespace SeeSharp.Screens.Play
 
                 case Key.Right:
                 case Key.D:
-                    if (running)
+                    if (_running)
                     {
                         adjustSpeed(0.1f);
                         return true;

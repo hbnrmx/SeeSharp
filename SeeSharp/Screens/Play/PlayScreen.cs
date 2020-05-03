@@ -14,10 +14,12 @@ namespace SeeSharp.Screens.Play
     public class PlayScreen : Screen
     {
         public Action Save;
+        public Action<Page, bool> NextPage;
+        
         private readonly BindablePage _page = new BindablePage();
         private readonly PlayZone _playZone;
 
-        public PlayScreen(BindablePage page)
+        public PlayScreen(BindablePage page, bool runningStart = false)
         {
             _page.BindTo(page);
 
@@ -31,11 +33,12 @@ namespace SeeSharp.Screens.Play
             AddInternal(currentBar = new BarInfoText(_page));
             AddInternal(speed = new SpeedInfoText(_page));
             AddInternal(zoom = new ZoomInfoText(_page));
-            AddInternal(_playZone = new PlayZone(_page)
+            AddInternal(_playZone = new PlayZone(_page, runningStart)
             {
                 speedChanged = speed.UpdateInfo,
                 zoomChanged = zoom.UpdateInfo,
-                currentBarChanged = currentBar.UpdateInfo
+                currentBarChanged = currentBar.UpdateInfo,
+                PageEnd = onPageEnd
             });
 
             //skip right to EditScreen when empty
@@ -46,7 +49,7 @@ namespace SeeSharp.Screens.Play
                     this.Push(new EditScreen(_page)
                     {
                         Save = Save,
-                        SetBarToFirstOrDefault = _playZone.jumpToFirstBar
+                        FinishedEditing = _playZone.jumpToFirstBar
                     });
                 }
             };
@@ -65,7 +68,7 @@ namespace SeeSharp.Screens.Play
                     this.Push(new EditScreen(_page)
                     {
                         Save = Save,
-                        SetBarToFirstOrDefault = _playZone.jumpToFirstBar
+                        FinishedEditing = _playZone.jumpToFirstBar
                     });
                     return true;
 
@@ -85,6 +88,12 @@ namespace SeeSharp.Screens.Play
             {
                 this.Exit();
             }
+        }
+
+        private void onPageEnd(bool runningStart)
+        {
+            this.Exit();
+            NextPage?.Invoke(_page.Value, runningStart);
         }
     }
 }
