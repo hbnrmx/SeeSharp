@@ -2,7 +2,6 @@
 using System.Linq;
 using osu.Framework.Graphics;
 using osu.Framework.Input.Events;
-using osu.Framework.Logging;
 using osu.Framework.Screens;
 using osuTK.Input;
 using SeeSharp.Models;
@@ -15,7 +14,7 @@ namespace SeeSharp.Screens.Play
     public class PlayScreen : Screen
     {
         public Action Save;
-        public Action<Page> NextPage;
+        public Action<Page, bool> NextPage;
         
         private readonly BindablePage _page = new BindablePage();
         private readonly PlayZone _playZone;
@@ -50,7 +49,7 @@ namespace SeeSharp.Screens.Play
                     this.Push(new EditScreen(_page)
                     {
                         Save = Save,
-                        SetBarToFirstOrDefault = _playZone.jumpToFirstBar
+                        FinishedEditing = _playZone.jumpToFirstBar
                     });
                 }
             };
@@ -69,7 +68,7 @@ namespace SeeSharp.Screens.Play
                     this.Push(new EditScreen(_page)
                     {
                         Save = Save,
-                        SetBarToFirstOrDefault = _playZone.jumpToFirstBar
+                        FinishedEditing = _playZone.jumpToFirstBar
                     });
                     return true;
 
@@ -91,10 +90,10 @@ namespace SeeSharp.Screens.Play
             }
         }
 
-        private void onPageEnd()
+        private void onPageEnd(bool runningStart)
         {
             this.Exit();
-            NextPage?.Invoke(_page.Value);
+            NextPage?.Invoke(_page.Value, runningStart);
         }
     }
 }

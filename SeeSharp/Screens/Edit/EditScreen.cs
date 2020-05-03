@@ -12,7 +12,7 @@ namespace SeeSharp.Screens.Edit
 {
     public class EditScreen : Screen
     {
-        public Action SetBarToFirstOrDefault;
+        public Action FinishedEditing;
         public Action Save;
         
         public EditScreen(BindablePage page)
@@ -38,7 +38,7 @@ namespace SeeSharp.Screens.Edit
                 case Key.Enter:
                 case Key.KeypadEnter:
                 case Key.Space:
-                    SetBarToFirstOrDefault.Invoke();
+                    FinishedEditing.Invoke();
                     Save.Invoke();
                     this.Exit();
                     return true;

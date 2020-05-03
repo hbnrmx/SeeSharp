@@ -93,7 +93,7 @@ namespace SeeSharp.Screens.Select
             });
         }
 
-        private void selectNextPage(Page currentPage)
+        private void selectNextPage(Page currentPage, bool runningStart)
         {
             var pages = _state.Value.Pages;
             
@@ -102,7 +102,7 @@ namespace SeeSharp.Screens.Select
             var nextBindableIndex = (pages.IndexOf(currentBindable) + 1) % pages.Count;
             var nextBindable = pages[nextBindableIndex];
             
-            pageSelected(nextBindable, true);
+            pageSelected(nextBindable, runningStart);
         }
 
         protected override bool OnKeyDown(KeyDownEvent e)

@@ -13,7 +13,7 @@ namespace SeeSharp.Screens.Play
 {
     public class PlayZone : Container
     {
-        public Action PageEnd;
+        public Action<bool> PageEnd;
         public Action<float> zoomChanged;
         public Action<float> speedChanged;
         public Action<float> currentBarChanged;
@@ -28,8 +28,9 @@ namespace SeeSharp.Screens.Play
         
         public PlayZone(BindablePage page, bool runningStart = false)
         {
-            _running = runningStart;
             _page.BindTo(page);
+
+            _running = runningStart;
             RelativeSizeAxes = Axes.Both;
             RelativePositionAxes = Axes.Both;
             Origin = Anchor.Centre;
@@ -57,10 +58,15 @@ namespace SeeSharp.Screens.Play
                 }
             };
 
-            currentBar.ValueChanged += _ => resetBar();
+            currentBar.ValueChanged += e =>
+            {
+                resetBar();
+                currentBarChanged?.Invoke(e.NewValue);
+            };
+                        
             zoomContainer.ScaleTo(_page.Value.Zoom.Value);
         }
-        
+
         [BackgroundDependencyLoader]
         private void Load() => Scheduler.AddDelayed(jumpToFirstBar, 100);
 
@@ -109,7 +115,17 @@ namespace SeeSharp.Screens.Play
             jumpToPreviousBar();
         }
         
-        public void jumpToFirstBar() => currentBar.Value = firstBar();
+        public void jumpToFirstBar()
+        {
+            if (currentBar.Value == firstBar())
+            {
+                currentBar.TriggerChange();
+            }
+            else
+            {
+                currentBar.Value = firstBar();
+            }
+        }
 
         private void jumpToPreviousBar(bool loop = false) => currentBar.Value = previousBar(loop);
 
@@ -117,7 +133,8 @@ namespace SeeSharp.Screens.Play
         {
             if (currentBar.Value == lastBar())
             {
-                PageEnd?.Invoke();
+                PageEnd?.Invoke(_running);
+                return;
             }
 
             currentBar.Value = nextBar(loop);
@@ -159,7 +176,15 @@ namespace SeeSharp.Screens.Play
             spriteFront.Y = -(currentBar.Value - 0.5f) * spriteA.DrawHeight;
             spriteBack.X = spriteA.DrawWidth + PAGE_SEPARATOR_WIDTH;
             spriteBack.Y = -(nextBar(true) - 0.5f) * spriteA.DrawHeight;
-            currentBarChanged.Invoke(currentBar.Value);
+            
+            if (currentBar.Value == lastBar())
+            {
+                spriteBack.Hide();
+            }
+            else
+            {
+                spriteBack.Show();
+            }
         }
 
         private void wrapAround()
