@@ -15,7 +15,7 @@ namespace SeeSharp.Screens.Select
     public class MenuItem : Container, IComparable<MenuItem>
     {
         private readonly BindablePage _page = new BindablePage();
-        public Action<BindablePage> PageSelected;
+        public Action<BindablePage, bool> PageSelected;
         private SpriteText _text;
 
         public MenuItem(BindablePage page)
@@ -67,7 +67,7 @@ namespace SeeSharp.Screens.Select
 
         protected override bool OnClick(ClickEvent e)
         {
-            PageSelected.Invoke(_page);
+            PageSelected.Invoke(_page, false);
             return true;
         }
 

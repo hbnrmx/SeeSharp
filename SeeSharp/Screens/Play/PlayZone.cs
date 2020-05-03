@@ -13,6 +13,7 @@ namespace SeeSharp.Screens.Play
 {
     public class PlayZone : Container
     {
+        public Action PageEnd;
         public Action<float> zoomChanged;
         public Action<float> speedChanged;
         public Action<float> currentBarChanged;
@@ -22,11 +23,12 @@ namespace SeeSharp.Screens.Play
         private readonly BindableFloat currentBar = new BindableFloat();
         private readonly PageSprite spriteA, spriteB;
         private PageSprite spriteFront, spriteBack;
-        private bool running;
+        private bool _running;
         private const float PAGE_SEPARATOR_WIDTH = 3f;
         
-        public PlayZone(BindablePage page)
+        public PlayZone(BindablePage page, bool runningStart = false)
         {
+            _running = runningStart;
             _page.BindTo(page);
             RelativeSizeAxes = Axes.Both;
             RelativePositionAxes = Axes.Both;
@@ -66,7 +68,7 @@ namespace SeeSharp.Screens.Play
         {
             base.Update();
 
-            if (running)
+            if (_running)
             {
                 //horizontal Panning
                 float xOffset = (float) Time.Elapsed * _page.Value.Speed.Value / 10f;
@@ -115,7 +117,7 @@ namespace SeeSharp.Screens.Play
         {
             if (currentBar.Value == lastBar())
             {
-                PageEnd.Invoke();
+                PageEnd?.Invoke();
             }
 
             currentBar.Value = nextBar(loop);
@@ -197,7 +199,7 @@ namespace SeeSharp.Screens.Play
             switch (e.Key)
             {
                 case Key.Space:
-                    running = !running;
+                    _running = !_running;
                     return true;
 
                 case Key.Up:
@@ -213,7 +215,7 @@ namespace SeeSharp.Screens.Play
                 case Key.Left:
                 case Key.A:
                 case Key.BackSpace:
-                    if (running)
+                    if (_running)
                     {
                         adjustSpeed(-0.1f);
                         return true;
@@ -224,7 +226,7 @@ namespace SeeSharp.Screens.Play
 
                 case Key.Right:
                 case Key.D:
-                    if (running)
+                    if (_running)
                     {
                         adjustSpeed(0.1f);
                         return true;

@@ -2,6 +2,7 @@
 using System.Linq;
 using osu.Framework.Graphics;
 using osu.Framework.Input.Events;
+using osu.Framework.Logging;
 using osu.Framework.Screens;
 using osuTK.Input;
 using SeeSharp.Models;
@@ -14,12 +15,12 @@ namespace SeeSharp.Screens.Play
     public class PlayScreen : Screen
     {
         public Action Save;
-        public Action PageEnd;
+        public Action<Page> NextPage;
         
         private readonly BindablePage _page = new BindablePage();
         private readonly PlayZone _playZone;
 
-        public PlayScreen(BindablePage page)
+        public PlayScreen(BindablePage page, bool runningStart = false)
         {
             _page.BindTo(page);
 
@@ -33,12 +34,12 @@ namespace SeeSharp.Screens.Play
             AddInternal(currentBar = new BarInfoText(_page));
             AddInternal(speed = new SpeedInfoText(_page));
             AddInternal(zoom = new ZoomInfoText(_page));
-            AddInternal(_playZone = new PlayZone(_page)
+            AddInternal(_playZone = new PlayZone(_page, runningStart)
             {
                 speedChanged = speed.UpdateInfo,
                 zoomChanged = zoom.UpdateInfo,
                 currentBarChanged = currentBar.UpdateInfo,
-                PageEnd = PageEnd
+                PageEnd = onPageEnd
             });
 
             //skip right to EditScreen when empty
@@ -88,6 +89,12 @@ namespace SeeSharp.Screens.Play
             {
                 this.Exit();
             }
+        }
+
+        private void onPageEnd()
+        {
+            this.Exit();
+            NextPage?.Invoke(_page.Value);
         }
     }
 }
