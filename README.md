@@ -14,7 +14,7 @@ feel free to try out and give some feedback if you like!
 
 ## 🧰 Installation
 
-Just double-click the `exe`!
+Just unzip the `zip` and double-click the `exe`!
 
 If you would like to use the `Send to` shortcut as shown in the screenshot below, please run this [powershell script](https://github.com/hbnrmx/SeeSharp/blob/master/.scripts/createSendToShortcut.ps1)
 
@@ -22,7 +22,7 @@ If you would like to use the `Send to` shortcut as shown in the screenshot below
 
 If you have any questions feel free to [open an issue](https://github.com/hbnrmx/SeeSharp/issues/new)!
 
-Hold down `F1` on any screen to get help
+Hold down <kbd>F1</kbd> on any screen to get help
 
 ## 📷 Screenshots
 <img width="500px" src=".screenshots/Screenshot1.png">
